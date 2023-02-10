@@ -1,0 +1,38 @@
+colorscheme iceberg
+
+" Images
+filextype *.png,*.jpg,*.jpeg,*.gif,*.svg,*.wepb,*.tiff,*.bmp
+	\ {Open with swayimg}
+	\ swayimg --window=000000 --no-sway %f %i &,
+
+filextype *.xcf
+ 	\ {Open with GIMP}
+	\ gimp --display :0 %f %i &,
+
+" Office documents
+filextype *.odt,*.fodt,*.ott,*.docx,*.doc,*.dotx,*.dot
+	\ {Open with Libreoffice Writer}
+	\ libreoffice %f %i &,
+
+filextype *.ods,*.fods,*.ots,*.xlsx,*.xls,*.xltx,*.xlt
+	\ {Open with Libreoffce Calc}
+	\ libreoffice %f %i &,
+
+filextype *.odp,*.fodp,*.ott,*.pptx,*.ppt,*.potx,*.pot,*.pps,*.ppsx
+	\ {Open with Libreoffice Impress}
+	\ libreoffice %f %i &,
+
+filextype *.pdf
+	\ {Open with Zathura}
+	\ zathura --fork %f %i,
+
+" Multimedia
+filextype *.3gp,*.3gpp,*.aac,*.avi,*.flac,*.mkv,*.mov,*.mp4,*.mp2,*.mp3,*.mpeg,*.ogg,*.opus,*.webm,*.wav,*.mod
+	\ {Open with mpv}
+	\ mpv --player-operation-mode=pseudo-gui %f %i &,
+
+" Other (not working for files with spaces)
+filextype *.circ
+	\ {Open with Logisim-evolution}
+	\ ~/.config/vifm/logisim.sh %f &,
+
