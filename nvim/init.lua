@@ -145,8 +145,9 @@ end })
 -- LaTeX (asynchronous)
 function compileLatex()
 	local path = vim.api.nvim_buf_get_name(0)
+	local pwd =  vim.fn['expand']('%:p:h')
 	latex_handle = vim.loop.spawn('bash',
-		{ args = { os.getenv('HOME') .. '/.config/nvim/latex.sh', path } },
+		{ args = { os.getenv('HOME') .. '/.config/nvim/latex.sh', path }, cwd = pwd },
 		vim.schedule_wrap(function(code)
 
 		if code == 0 then
