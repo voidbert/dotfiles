@@ -5,7 +5,7 @@ everyday use, such as, but not limited to:
 
 ##### [Neovim](nvim)
 
-- Asynchronous $`\LaTeX`$ compilation and preview
+- Asynchronous $\LaTeX$ compilation and preview
 - [Termux](https://termux.dev) clipboard synchronization
 
 ##### [Swaywm](sway)
