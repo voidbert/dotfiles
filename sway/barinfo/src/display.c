@@ -19,7 +19,7 @@ void display_begin(void) {
 #define USAGE_COLOR(val, med, bad) ((val) < (med)) ? COLOR_OK : \
                                    (((val) < (bad)) ? COLOR_MEDIUM : COLOR_BAD )
 
-void display_cpu(cpu_display_data *c) {
+void display_cpu(const cpu_display_data *c) {
 	const char *separator_params = "\"separator\": false, \"separator_block_width\": 0";
 
 	printf(", { \"full_text\": \"%.1f %%\", %s, \"color\": \"%s\" }"
@@ -50,7 +50,7 @@ void display_mem_fancy_string(size_t used, char *out, size_t out_size) {
 	}
 }
 
-void display_mem(mem_display_data *m) {
+void display_mem(const mem_display_data *m) {
 	char str[128];
 	display_mem_fancy_string(m->mem_used, str, 128);
 
@@ -67,14 +67,14 @@ void display_mem(mem_display_data *m) {
 	fputs("\" }", stdout);
 } /**< Internal function for displaying memory usage on the `swaybar` */
 
-void display_time(time_display_data *t) {
+void display_time(const time_display_data *t) {
 	/* HH:MM:SS DD/MM/YY */
 	printf(", { \"full_text\" :\"%02d:%02d:%02d %02d/%02d/%02d\" }",
 		t->tm_hour, t->tm_min, t->tm_sec,
 		t->tm_mday, t->tm_mon + 1, t->tm_year % 100);
 } /**< Internal function for displaying time on the `swaybar` */
 
-void display_update(display_data *data) {
+void display_update(const display_data *data) {
 	printf("[{}"); /* Empty object will be ignored and makes comma placement uniform */
 
 	display_cpu (&data->cpu);

@@ -73,6 +73,6 @@ typedef struct {
 
 void display_begin(void); /**< Begins outputting the `swaybar` json file to `stdout` */
 
-void display_update(display_data *data); /**< Updates the `swaybar` with new data */
+void display_update(const display_data *data); /**< Updates the `swaybar` with new data */
 
 #endif
