@@ -5,6 +5,7 @@ OBJDIR   := obj
 BUILDDIR := build
 DOCSDIR  := docs
 
+SOURCES = $(wildcard src/*.c)
 HEADERS = $(wildcard include/*.h)
 OBJECTS = $(patsubst src/%.c, $(OBJDIR)/%.o, $(wildcard src/*.c))
 
@@ -22,8 +23,10 @@ $(BUILDDIR)/barinfo: $(OBJECTS)
 
 define Doxyfile
 
-INPUT = include
-FILE_PATTERNS = *.h
+INPUT = include src
+RECURSIVE = YES
+EXTRACT_ALL = YES
+FILE_PATTERNS = *.h *.c
 
 PROJECT_NAME = barinfo
 INPUT += README.md
@@ -37,7 +40,7 @@ GENERATE_LATEX = NO
 endef
 export Doxyfile
 
-$(DOCSDIR): $(HEADERS)
+$(DOCSDIR): $(SOURCES) $(HEADERS)
 	echo "$$Doxyfile" | doxygen -
 
 clean:
