@@ -77,9 +77,13 @@ void display_time(const time_display_data *t) {
 void display_update(const display_data *data) {
 	printf("[{}"); /* Empty object will be ignored and makes comma placement uniform */
 
-	display_cpu (&data->cpu);
-	display_mem (&data->mem);
-	display_time(&data->time);
+	if (data->error) {
+		printf(", { \"full_text\": \"%s\", \"color\": \""COLOR_BAD"\" }", data->error);
+	} else {
+		display_cpu (&data->cpu);
+		display_mem (&data->mem);
+		display_time(&data->time);
+	}
 
 	printf("],\n");
 	fflush(stdout);

@@ -9,8 +9,9 @@ int main() {
 
 	display_data data = {
 		.cpu = { .usage = 0.6f, .temp = 180 /* Meanwhile in Pentium IV land */ },
-		.mem = { .mem_used = 3000, .swap_used = 10 },
-		.time = *time
+		.mem = { .mem_used = 3000, .swap_used = 0 },
+		.time = *time,
+		.error = NULL
 	};
 
 	display_begin();

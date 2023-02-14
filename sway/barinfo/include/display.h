@@ -64,11 +64,16 @@ typedef struct tm time_display_data;
 /**
  * @struct display_data
  * @brief Totality of information to be displayed on the `swaybar`
+ *
+ * @var display_data::error
+ *   A pointer to a string with an error message. Cannot contain quotes. NULL for no error.
  */
 typedef struct {
 	cpu_display_data  cpu;
 	mem_display_data  mem;
 	time_display_data time;
+
+	const char *error;
 } display_data;
 
 void display_begin(void); /**< Begins outputting the `swaybar` json file to `stdout` */
