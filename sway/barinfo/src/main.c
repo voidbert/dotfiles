@@ -3,6 +3,7 @@
 #include <unistd.h>
 
 #include <display.h>
+#include <cpu.h>
 #include <date.h>
 
 int main() {
@@ -12,9 +13,15 @@ int main() {
 		.error = NULL
 	};
 
+	cpu_usage_status cpu_status;
+	int err = cpu_initial_state(&cpu_status);
+	if (err)
+		data.error = "Failed to get CPU usage information";
+
 	display_begin();
 
 	for (;;) {
+		cpu_update_display_data(&cpu_status, &data);
 		date_update_display_data(&data);
 
 		display_update(&data);
@@ -23,3 +30,4 @@ int main() {
 
 	return 0;
 }
+
