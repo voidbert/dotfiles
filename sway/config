@@ -1,7 +1,7 @@
 # Read `man 5 sway` for a complete reference.
 
 ### Startup programs:
-exec mako & pipewire & pipewire-pulse
+exec mako & pipewire & pipewire-pulse & ~/.config/sway/kill-xwayland.sh
 
 ### Variables:
 
@@ -27,7 +27,7 @@ exec mako & pipewire & pipewire-pulse
 xwayland enable
 
 ### Window borders
-for_window [app_id=".*"] border normal
+for_window [title="Firefox — Sharing Indicator"] floating enable
 
 ### Input configuration:
 
@@ -200,8 +200,7 @@ bar {
 	position top
 
 	# When the status_command prints a new line to stdout, swaybar updates.
-	# The default just shows the current date and time.
-	status_command ~/a.out
+	status_command ~/dotfiles/sway/barinfo/build/barinfo
 
 	colors {
 		statusline #ffffff
