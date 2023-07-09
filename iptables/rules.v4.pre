@@ -1,0 +1,24 @@
+*filter
+:INPUT DROP [0:0]
+:FORWARD DROP [0:0]
+:OUTPUT ACCEPT [0:0]
+
+# Allow input for existing connections (for NTP, apt updates, ...)
+-I INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+
+# Loopback
+-A INPUT -i lo -j ACCEPT
+-A OUTPUT -o lo -j ACCEPT
+
+# SSH
+-A INPUT -p tcp -m tcp --dport %SSH_PORT% -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
+
+# SSH rate limiting
+-I INPUT -p tcp -m tcp --dport %SSH_PORT% -m state --state NEW -m recent --set
+-I INPUT -p tcp -m tcp --dport %SSH_PORT% -m state --state NEW -m recent --update --seconds 60 --hitcount 5 -j DROP
+
+# SSH maximum simultaneous connections
+-A INPUT -p tcp --syn --dport %SSH_PORT% -m connlimit --connlimit-above 3 -j REJECT
+
+COMMIT
+
