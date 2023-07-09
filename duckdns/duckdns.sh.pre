@@ -6,7 +6,7 @@
 
 # Comma-separated DuckDNS domains.
 # E.g.: xxxxxx.duckdns.org and yyyyyy.duckdns.org becomes "xxxxxx,yyyyyy"
-domains="%SERVER_IP%"
+domains="%SERVER_DOMAIN%"
 
 # Your login token.
 token="%DUCKDNS_TOKEN%"

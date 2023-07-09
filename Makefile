@@ -32,8 +32,8 @@ PROCESSED_DIR   := processed
 #   - server:  Configs for SSHd, iptables, PAMd, ...
 TARGET_SYSTEM   := server
 
-# DuckDNS IP of your home server. E.g.: xxxxx.duckdns.org -> xxxxx
-SERVER_IP       := secret-domain
+# DuckDNS domain of your home server. E.g.: xxxxx.duckdns.org -> xxxxx
+SERVER_DOMAIN       := secret-domain
 
 # A custom SSH port can be set to avoid script kiddies. Changes will break
 # remotes of exiting git repositories hosted on the server.
@@ -54,7 +54,7 @@ PROCESSING_OUT  := $(patsubst %.pre, ${PROCESSED_DIR}/%, $(NEED_PROCESSING))
 default: ${PROCESSING_OUT}
 
 DUCKDNS_LOGFILE_ESCAPED = $(shell echo "${DUCKDNS_LOGFILE}" | sed 's/\//\\\//g')
-SED_COMMAND = s/%SERVER_IP%/${SERVER_IP}/g ;$\
+SED_COMMAND = s/%SERVER_DOMAIN%/${SERVER_DOMAIN}/g ;$\
               s/%SSH_PORT%/${SSH_PORT}/g ;$\
               s/%DUCKDNS_TOKEN%/${DUCKDNS_TOKEN}/g ;$\
               s/%DUCKDNS_LOGFILE%/${DUCKDNS_LOGFILE_ESCAPED}/g
