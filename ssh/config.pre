@@ -1,0 +1,35 @@
+Host github.com
+	User git
+	Hostname github.com
+	IdentityFile ~/.ssh/id_rsa_github
+
+Host gist.github.com
+	User git
+	Hostname github.com
+	IdentityFile ~/.ssh/id_rsa_github
+
+Host gitlab.com
+	User git
+	HostName gitlab.com
+	IdentityFile ~/.ssh/id_rsa_gitlab
+
+Host rk322x-box
+	User voidbert
+	HostName rk322x-box
+	IdentityFile ~/.ssh/id_rsa_admin_server
+
+Host %SERVER_DOMAIN%.duckdns.org
+	User voidbert
+	HostName %SERVER_DOMAIN%.duckdns.org
+	IdentityFile ~/.ssh/id_rsa_admin_server
+
+Host rk322x-box
+	User git
+	HostName rk322x-box
+	IdentityFile ~/.ssh/id_rsa_git_server
+
+Host %SERVER_DOMAIN%.duckdns.org
+	User git
+	HostName %SERVER_DOMAIN%.duckdns.org
+	IdentityFile ~/.ssh/id_rsa_git_server
+
