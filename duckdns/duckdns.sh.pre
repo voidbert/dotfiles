@@ -6,13 +6,13 @@
 
 # Comma-separated DuckDNS domains.
 # E.g.: xxxxxx.duckdns.org and yyyyyy.duckdns.org becomes "xxxxxx,yyyyyy"
-domains=""
+domains="%SERVER_IP%"
 
 # Your login token.
-token=""
+token="%DUCKDNS_TOKEN%"
 
 # The path to the log file. Leave empty for no logging.
-log_file=""
+log_file="%DUCKDNS_LOGFILE%"
 
 # The path to a temporary file for curl output.
 tmp_file="/tmp/duckdns"
