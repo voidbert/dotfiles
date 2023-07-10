@@ -1,0 +1,47 @@
+# sshd_config(5) for more information.
+
+Include /etc/ssh/sshd_config.d/*.conf
+
+# Network
+Port %SSH_PORT%
+ListenAddress 0.0.0.0
+IPQoS af21
+
+# Connection, session and time limits
+MaxAuthTries 6
+MaxSessions  3
+MaxStartups  1
+
+LoginGraceTime 60
+ClientAliveInterval 300
+ClientAliveCountMax 0
+
+# Authentication requirements
+PermitRootLogin no
+AllowUsers voidbert git
+RequiredRSASize 2048
+
+# Authentication method
+PubkeyAuthentication yes
+PasswordAuthentication no
+PermitEmptyPasswords no
+ChallengeResponseAuthentication yes
+
+UsePAM yes
+KbdInteractiveAuthentication yes
+AuthenticationMethods publickey,keyboard-interactive
+
+# Disable all types of forwarding
+DisableForwarding yes
+# AllowAgentForwarding       no
+# AllowStreamLocalForwarding no
+# AllowTcpForwarding         no
+# X11Forwarding              no
+
+# SFTP
+Subsystem sftp /usr/lib/openssh/sftp-server
+
+# Other
+IgnoreUserKnownHosts yes
+PrintMotd no
+
