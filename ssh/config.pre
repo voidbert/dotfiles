@@ -13,23 +13,22 @@ Host gitlab.com
 	HostName gitlab.com
 	IdentityFile ~/.ssh/id_rsa_gitlab
 
-Host rk322x-box
-	User voidbert
-	HostName rk322x-box
-	IdentityFile ~/.ssh/id_rsa_admin_server
 
-Host %SERVER_DOMAIN%.duckdns.org
-	User voidbert
-	HostName %SERVER_DOMAIN%.duckdns.org
-	IdentityFile ~/.ssh/id_rsa_admin_server
 
 Host rk322x-box
-	User git
 	HostName rk322x-box
-	IdentityFile ~/.ssh/id_rsa_git_server
-
-Host %SERVER_DOMAIN%.duckdns.org
-	User git
+Host %SERVER_DOMAIN%
 	HostName %SERVER_DOMAIN%.duckdns.org
-	IdentityFile ~/.ssh/id_rsa_git_server
+
+Host rk322x-box %SERVER_DOMAIN%
+	User voidbert
+	IdentityFile ~/.ssh/id_rsa_admin_server
+
+Host rk322x-box %SERVER_DOMAIN%
+	User git
+	IdentityFile ~/.ssh/id_rsa_user_server
+
+Host rk322x-box %SERVER_DOMAIN%
+	User fileshare
+	IdentityFile ~/.ssh/id_rsa_user_server
 
