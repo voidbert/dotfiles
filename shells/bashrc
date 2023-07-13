@@ -1,0 +1,13 @@
+# .bashrc
+
+# Custom functions
+source .dashrc
+
+# If not running interactively, don't do anything else
+[[ $- != *i* ]] && return
+
+alias ls='ls --color=auto'
+PS1='[\u@\h \W]\$ '
+
+theme.sh one-half-black
+

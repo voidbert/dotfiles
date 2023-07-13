@@ -1,0 +1,93 @@
+#!/bin/sh
+
+# Custom functions to fix small issues or to simplify existing commands. These are also used in
+# the dash shell, which doesn't support functions with hyphens, so those can't be used :-(
+
+update_dmenu()
+{
+	/home/voidbert/.config/sway/dmenu_commands.sh -c
+}
+
+# Mounting disks
+
+user_mount()
+{
+	doas mount -o uid=1000 $@
+}
+
+user_umount()
+{
+	doas umount $@
+}
+
+mount_server()
+{
+	doas sshfs -o allow_other,IdentityFile=/home/voidbert/.ssh/id_rsa_user_server \
+		fileshare@%SERVER_DOMAIN%.duckdns.org:/storage/fileshare /mnt/server
+}
+
+umount_server()
+{
+	doas umount /mnt/server
+}
+
+# Git email configuration. My dev email is easy to find, but I don't always use it.
+
+git_personal_email()
+{
+	git config --global user.email "humbertogilgomes@protonmail.com"
+}
+
+git_noreply_email()
+{
+	git config --global user.email "50591320+voidbert@users.noreply.github.com"
+}
+
+# Memory related
+
+drop_caches()
+{
+	doas sh -c 'echo 3 > /proc/sys/vm/drop_caches'
+}
+
+clear_swap()
+{
+	doas sh -c "swapoff -a && swapon -a"
+}
+
+# vifm color fix
+
+vifm()
+{
+	command vifm
+	theme.sh one-half-black
+}
+
+# Desktop apps (mostly Wayland fixes)
+
+dolphin()
+{
+	DIPSLAY=:0 QT_QPA_PLATFORM=xcb dolphin-emu
+}
+
+firefox()
+{
+	MOZ_ENABLE_WAYLAND=1 command firefox "$@"
+}
+
+gimp()
+{
+	command gimp --display :0 "$@"
+}
+
+logisim()
+{
+	DISPLAY=:0 wmname LG3D
+	DISPLAY=:0 logisim-evolution
+}
+
+swayimg()
+{
+	command swayimg -b 000000 -w 000000 -n "$@"
+}
+
