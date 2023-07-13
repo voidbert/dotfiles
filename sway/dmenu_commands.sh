@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Usage:
-# Generate cache: dmenu_commands -c [commands to add to cache]
+# Force cache generation: dmenu_commands -c
 # Use cache / generate if needed: dmenu_commands
 
 cache() {
@@ -29,8 +29,8 @@ cache() {
 		skip=false
 	done
 
-	# Argument items
-	for item in $@; do
+	# User defined functions
+	for item in $(grep '()$' /home/voidbert/.dashrc | sed 's/()$//g'); do
 		previous="$item\n$previous"
 	done
 
@@ -38,11 +38,10 @@ cache() {
 }
 
 if [ "$1" = "-c" ]; then
-	shift 1
-	cache $@
+	cache
 else
 	if ! [ -e "/tmp/dmenu_command_cache" ]; then
-		cache $@
+		cache
 	fi
 	cat "/tmp/dmenu_command_cache"
 fi
