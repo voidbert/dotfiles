@@ -30,7 +30,7 @@ PROCESSED_DIR   := processed
 #              and others.
 #   - laptop:  Contains all desktop configs, and also power management settings
 #   - server:  Configs for SSHd, iptables, PAMd, ...
-TARGET_SYSTEM   := server
+TARGET_SYSTEM   := laptop
 
 # DuckDNS domain of your home server. E.g.: xxxxx.duckdns.org -> xxxxx
 SERVER_DOMAIN       := secret-domain
@@ -49,19 +49,36 @@ DUCKDNS_LOGFILE := /storage/logs/duckdns.log
 
 # ----------------------------------- RULES -----------------------------------
 
+ifeq ($(TARGET_SYSTEM), desktop)
+	# Desktop has no NVIDIA components
+	IGNORE_SYSTEM_SPECIFIC_FIRMWARE = linux-firmware-nvidia
+else
+	# Laptop has no AMD components.
+	# The server doesn't use Void Linux, so this is ignored.
+	IGNORE_SYSTEM_SPECIFIC_FIRMWARE = linux-firmware-amd
+endif
+
 NEED_PROCESSING := $(wildcard */*.pre)
 PROCESSING_OUT  := $(patsubst %.pre, ${PROCESSED_DIR}/%, $(NEED_PROCESSING))
-default: ${PROCESSING_OUT}
+default: ${PROCESSING_OUT} ${PROCESSED_DIR}/xbps/perlhaters.conf
 
 DUCKDNS_LOGFILE_ESCAPED = $(shell echo "${DUCKDNS_LOGFILE}" | sed 's/\//\\\//g')
 SED_COMMAND = s/%SERVER_DOMAIN%/${SERVER_DOMAIN}/g ;$\
               s/%SSH_PORT%/${SSH_PORT}/g ;$\
               s/%DUCKDNS_TOKEN%/${DUCKDNS_TOKEN}/g ;$\
-              s/%DUCKDNS_LOGFILE%/${DUCKDNS_LOGFILE_ESCAPED}/g
+              s/%DUCKDNS_LOGFILE%/${DUCKDNS_LOGFILE_ESCAPED}/g ;$\
+              s/%IGNORE_SYSTEM_SPECIFIC_FIRMWARE%/${IGNORE_SYSTEM_SPECIFIC_FIRMWARE}/g
 
 ${PROCESSED_DIR}/%: %.pre
 	@mkdir -p $(shell dirname "${PROCESSED_DIR}/$<")
 	@cat $< | sed -e "${SED_COMMAND}" > $@
+
+# Generate a file telling xbps to ignore all perl packages (wildcards aren't supported)
+${PROCESSED_DIR}/xbps/perlhaters.conf: xbps/ignorepkg.conf.pre
+	@mkdir -p "${PROCESSED_DIR}/xbps"
+	@if command -v xbps-query > /dev/null ; then \
+		xbps-query -Rs perl* | awk '{ print $$2 }' | \
+		sed -e 's/-[0-9_.]*$$//g ; s/^/ignorepkg=/' > "$@" ; fi
 
 .PHONY: clean
 clean:

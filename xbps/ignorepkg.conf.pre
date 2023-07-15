@@ -3,20 +3,18 @@
 ### System
 
 # Firmware
-ignorepkg=ipw2100-firmware
-ignorepkg=ipw2200-firmware
-ignorepkg=zd1211-firmware
-ignorepkg=linux-firmware-nvidia
+ignorepkg=wifi-firmware
+ignorepkg=%IGNORE_SYSTEM_SPECIFIC_FIRMWARE%
 ignorepkg=linux-firmware-broadcom
 
 # Other from base-system
-ignorepkg=linux # In favor of linux-mainline
+virtualpkg=linux:linux-mainline
+ignorepkg=thin-provisioning-tools
 ignorepkg=xfsprogs
 ignorepkg=btrfs-progs
 ignorepkg=f2fs-tools
 ignorepkg=nvi
-ignorepkg=sudo # Only because you use doas
-ignorepkg=openldap
+virtualpkg=sudo:opendoas
 ignorepkg=void-artwork
 
 # GRUB
@@ -31,8 +29,6 @@ ignorepkg=font-util
 ignorepkg=font-cursor-misc
 ignorepkg=xtrans
 ignorepkg=encodings
-#ignorepkg=xkbcomp
-#ignorepkg=xkeyboard-config
 
 # GTK+
 ignorepkg=dbus-x11
@@ -43,19 +39,14 @@ ignorepkg=gtk-update-icon-cache
 ignorepkg=bubblewrap
 
 # Qt
-ignorepkg=thin-provisioning-tools
 ignorepkg=breeze-snow-cursor-theme
 ignorepkg=xmlcatmgr
+ignorepkg=docbook-xml
+ignorepkg=docbook-xsl
 
 ### Development
 
-# git
-ignorepkg=perl-Authen-SASL
-ignorepkg=perl-MIME-tools
-ignorepkg=perl-Net-SMTP-SSL
-
 # GHC
-ignorepkg=perl
 ignorepkg=libnuma-devel
 ignorepkg=libffi-devel
 ignorepkg=gmp-devel
@@ -72,22 +63,25 @@ ignorepkg=libXtst-devel
 ignorepkg=dbus-devel
 ignorepkg=libasyncns-devel
 
-### Other
-
-# FFmpeg
-ignorepkg=ffplay
-
 # LaTeX
 ignorepkg=dialog
 ignorepkg=ghostscript
-ignorepkg=perl-Tk
 ignorepkg=texlive-latexmk
+
+# Perl
+include=perlhaters.conf
+
+### Other applications
+
+# FFmpeg
+ignorepkg=ffplay
 
 # GIMP
 ignorepkg=gsfonts
 ignorepkg=mypaint-brushes1
 
 # Libreoffice
+ignorepkg=openldap
 ignorepkg=amiri-font
 ignorepkg=culmus
 ignorepkg=font-emoji-one-color
