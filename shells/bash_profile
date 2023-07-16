@@ -1,0 +1,20 @@
+# .bash_profile
+
+# Get the aliases and functions
+[ -f $HOME/.bashrc ] && . $HOME/.bashrc
+export ENV="$HOME/.dashrc"
+
+if [[ $USER == voidbert ]] && [[ $(tty) == "/dev/tty1" ]]; then
+
+	if [ ! -d /tmp/runtime-$USER ]; then
+		mkdir -p -m 0700 /tmp/runtime-$USER
+	fi
+	export XDG_RUNTIME_DIR=/tmp/runtime-$USER
+	export XDG_SESSION_TYPE=wayland
+
+	export GTK_IM_MODULE=fcitx
+	export QT_IM_MODULE=fcitx
+	export XMODIFIERS="@im=fcitx"
+
+	dbus-run-session sway
+fi
