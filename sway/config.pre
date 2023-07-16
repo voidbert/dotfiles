@@ -14,14 +14,8 @@ exec mako & pipewire & pipewire-pulse & wireplumber & fcitx5 & ~/.config/sway/ki
 
 	set $term foot
 
-### Display configuration:
-
-	output HDMI-A-1 resolution 1920x1080@60Hz position 0 0
-	output HDMI-A-2 resolution 1366x768@60Hz position 1920 220
-
-### Wallpaper:
-	output HDMI-A-1 bg "~/Pictures/Wallpapers/Kimi no na wa.jpg" fill
-	output HDMI-A-2 bg "~/Pictures/Wallpapers/Kimi no na wa 2.jpg" fill
+### Display and wallpaper configuration:
+include ~/.config/sway/%TARGET_SYSTEM%-display
 
 ### XWayland
 xwayland enable
