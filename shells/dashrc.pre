@@ -72,7 +72,7 @@ dolphin()
 
 firefox()
 {
-	MOZ_ENABLE_WAYLAND=1 command firefox "$@"
+	MOZ_ENABLE_WAYLAND=1 MOZ_USE_XINPUT2=1 command firefox "$@"
 }
 
 gimp()

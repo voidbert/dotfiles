@@ -130,6 +130,10 @@ user_pref("security.ssl.treat_unsafe_negotiation_as_broken", true); // Broken pa
 user_pref("browser.ssl_override_behavior", 1); // Add security exception on SSL warnings
 user_pref("browser.compactmode.show", true);
 
+// Gestures (touchpad related)
+user_pref("browser.gesture.swipe.left", "");
+user_pref("browser.gesture.swipe.right", "");
+user_pref("apz.gtk.kinetic_scroll.enabled", false);
 
 // Fonts (enable to fix font problems)
 user_pref("gfx.font_rendering.opentype_svg.enabled", false);
@@ -235,3 +239,4 @@ user_pref("browser.search.update", false);
 user_pref("media.ffmpeg.vaapi.enabled", true);
 
 // Arkenfox: https://github.com/arkenfox/user.js/blob/master/user.js
+
