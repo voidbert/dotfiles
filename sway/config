@@ -149,6 +149,11 @@ for_window [title="Firefox — Sharing Indicator"] floating enable
 	bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5%
 	bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
 
+### Brightness:
+
+	bindsym XF86MonBrightnessUp   exec ~/.config/sway/backlight.sh +10
+	bindsym XF86MonBrightnessDown exec ~/.config/sway/backlight.sh -10
+
 ### Screenshots:
 
 	bindsym Print exec ~/.config/sway/screenshot.sh -a
