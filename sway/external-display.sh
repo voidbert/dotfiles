@@ -108,8 +108,8 @@ plug() {
 	modes=$(echo "$1" | \
 		jq -r '.modes[]? | "\(.width)x\(.height)@\(.refresh / 1000)Hz"' \
 		| uniq)
-	if [ -z "$modes" ]; then
-		echo "swaymsg didn't report display modes. Wtf?"
+	if [ -z "$modes" ] || [ -n "$(echo "$modes" | grep null)" ]; then
+		echo "swaymsg didn't correctly report display modes. Wtf?"
 		exit 1
 	fi
 
@@ -123,6 +123,10 @@ plug() {
 		"Where is the external monitor in relation to the laptop's screen:" \
 		"Position > "
 	position=$result
+
+	yes_no="$(printf "Yes\nNo")"
+	read_option "$yes_no" "Do you want to share your wallpaper?" "? >"
+	wallpaper=$result
 
 	# Calculate positions of internal and external displays
 	external_width=$(echo "$mode" | cut -dx -f1)
@@ -147,9 +151,24 @@ plug() {
 		center_vertically
 	fi
 
+	# Determine wallpaper of external screen
+	if [ "$wallpaper" = "Yes" ]; then
+		wallpaper_path=$(ps -C swaybg -o args --no-headers | \
+			awk -v FS="-o $LAPTOP_NAME -i |-m" '{ print $2 }')
+
+		if [ -z "$wallpaper_path" ]; then
+			echo "Unable to get current wallpaper. Defaulting to black."
+			wallpaper_string='#000000 solid_color'
+		else
+			wallpaper_string="$wallpaper_path fill"
+		fi
+	else
+		wallpaper_string='#000000 solid_color'
+	fi
+
 	swaymsg output "$LAPTOP_NAME"   position "$laptop_x" "$laptop_y" && \
 	swaymsg output "$EXTERNAL_NAME" resolution "$mode" \
-		position "$external_x" "$external_y" && \
+		position "$external_x" "$external_y" bg $wallpaper_string && \
 	swaymsg output "$EXTERNAL_NAME" enable
 
 	if [ $? -ne 0 ]; then
@@ -177,15 +196,16 @@ unplug() {
 
 # Get information about the external display
 output_info=$(swaymsg -rt get_outputs | \
-	jq ".[] | select (.name == \"$EXTERNAL_NAME\")")
+	jq ".[]? | select (.name? == \"$EXTERNAL_NAME\")")
 
 if [ -z "$output_info" ]; then
 	echo "No display connected!"
+	echo "Maybe swaymsg didn't correctly report outputs?"
 	exit 1
 fi
 
 # Determine if the display is being plugged or unplugged
-output_active=$(echo "$output_info" | jq '.active')
+output_active=$(echo "$output_info" | jq '.active?')
 
 if [ "$output_active" = "false" ]; then
 	plug "$output_info"
