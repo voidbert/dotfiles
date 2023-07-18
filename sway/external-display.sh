@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # ----------------------------------- ABOUT -----------------------------------
 #
@@ -40,9 +40,9 @@ read_option() {
 
 	# Read user input repeatedly until it's valid
 	while true; do
-		read -p "$3" number
+		read -rp "$3" number
 
-		if [ -n "$(echo "$number" | grep '[^0-9]')" ]; then
+		if echo "$number" | grep -q '[^0-9]' ; then
 			echo "Please input a number!"
 		else
 			if [ "$number" -ge 1 ]; then

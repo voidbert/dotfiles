@@ -1,12 +1,16 @@
 #!/bin/sh
 
-# Kills Xwayland periodically, when no windows are detected
+# ----------------------------------- ABOUT -----------------------------------
+#
+# Kills Xwayland periodically, when no X windows are detected.
+#
+# ---------------------------------- SCRIPT ----------------------------------
 
 must_kill=false
 
 while true; do
 	pid=$(pgrep Xwayland)
-	if [ ! -z "$pid" ]; then
+	if [ -n "$pid" ]; then
 		# Xwayland is running
 
 		shells=$(swaymsg -t get_tree | grep xwayland)
@@ -15,7 +19,7 @@ while true; do
 			# windows then (because windows can be starting now)
 
 			if $must_kill; then
-				kill $pid
+				kill "$pid"
 				must_kill=false
 				notify-send -t 5000 "Killed Xwayland"
 			else

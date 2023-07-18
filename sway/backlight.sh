@@ -26,8 +26,8 @@ if [ ! -d "$BACKLIGHT_DIR" ]; then
 fi
 
 # Verify argument.
-first_char=$(echo $1 | cut -c1)
-if [ "$first_char" != "+" -a "$first_char" != "-" ]; then
+first_char=$(echo "$1" | cut -c1)
+if [ "$first_char" != "+" ] && [ "$first_char" != "-" ]; then
 	echo "Wrong usage of backlight.sh!"
 	echo ""
 	echo "./backlight.sh +p : increase brightness by p%"

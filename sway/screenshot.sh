@@ -1,11 +1,26 @@
 #!/bin/sh
 
+# ----------------------------------- ABOUT -----------------------------------
+#
+# Takes a screenshot of an area specified through command-line arguments.
+# Primarily used with sway's keyboard shortcuts.
+#
+# Usage: ./screenshot.sh [single option]
+#
+# Options:
+# -a, --all: capture all monitors
+# -c, --current: capture current monitor
+# -w, --window: capture current window
+# -r, --region: prompt the user to select the region to capture
+#
+# ---------------------------------- SCRIPT ----------------------------------
+
 output_file="$(xdg-user-dir PICTURES)/Screenshot_$(date +"%Y-%m-%d_%H-%M-%S").png"
 
 usage()
 {
 	echo ""
-	echo "Usage: screenshot.sh [single option]"
+	echo "Usage: ./screenshot.sh [single option]"
 	echo ""
 	echo "Options:"
 	echo "-a, --all: capture all monitors"
@@ -66,3 +81,4 @@ if [ $# -eq 1 ]; then
 else
 	usage
 fi
+
