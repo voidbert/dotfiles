@@ -27,6 +27,7 @@
 
 if mkdir /tmp/sway_sleep.lock; then
 	doas /bin/zzz
+	if command -v swaylock; then swaylock -c 000000; fi
 	swaymsg mode default
 	sleep 5
 	rm -r /tmp/sway_sleep.lock
