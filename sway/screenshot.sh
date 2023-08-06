@@ -97,7 +97,7 @@ elif [ "$1" = "-c" ] || [ "$1" = "--current" ]; then
 elif [ "$1" = "-w" ] || [ "$1" = "--window" ]; then
 
 	window="$(swaymsg -t get_tree | \
-		jq -r '.. | select(.type?) | select(.focused?).rect? | "\(.x?),\(.y?) \(.width?)x\(.height?)"')"
+		jq -r '.. | select(.type?) | select(.focused?).rect? | "\(.x?+2),\(.y?) \(.width?-4)x\(.height?-2)"')"
 	check_jq_output "$window"
 	grim -g "$window" "$output_file"
 	success_check "Current window"
