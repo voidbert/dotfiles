@@ -4,7 +4,8 @@
 
 # Firmware
 ignorepkg=wifi-firmware
-ignorepkg=%IGNORE_SYSTEM_SPECIFIC_FIRMWARE%
+ignorepkg=linux-firmware-amd
+%IGNORE_SYSTEM_SPECIFIC_FIRMWARE%
 ignorepkg=linux-firmware-broadcom
 
 # Other from base-system

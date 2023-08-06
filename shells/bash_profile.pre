@@ -29,9 +29,15 @@ if [[ $USER == voidbert ]] && [[ $(tty) == "/dev/tty1" ]]; then
 	export XDG_RUNTIME_DIR=/tmp/runtime-$USER
 	export XDG_SESSION_TYPE=wayland
 
+	if [ "%TARGET_SYSTEM%" = "desktop" ]; then
+		# Needs libdrm-test-progs
+		proptest -D /dev/dri/card0 95 connector 97 1 # Full range RGB on HDMI-A-1
+	fi
+
 	export GTK_IM_MODULE=fcitx
 	export QT_IM_MODULE=fcitx
 	export XMODIFIERS="@im=fcitx"
 
 	dbus-run-session sway
 fi
+

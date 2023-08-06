@@ -33,7 +33,7 @@ PROCESSED_DIR   := processed
 TARGET_SYSTEM   := laptop
 
 # DuckDNS domain of your home server. E.g.: xxxxx.duckdns.org -> xxxxx
-SERVER_DOMAIN       := secret-domain
+SERVER_DOMAIN   := secret-domain
 
 # A custom SSH port can be set to avoid script kiddies. Changes will break
 # remotes of exiting git repositories hosted on the server.
@@ -51,11 +51,11 @@ DUCKDNS_LOGFILE := /storage/logs/duckdns.log
 
 ifeq ($(TARGET_SYSTEM), desktop)
 	# Desktop has no NVIDIA components
-	IGNORE_SYSTEM_SPECIFIC_FIRMWARE = linux-firmware-nvidia
+	IGNORE_SYSTEM_SPECIFIC_FIRMWARE = "ignorepkg=linux-firmware-nvidia"
 else
-	# Laptop has no AMD components.
+	# Laptop has no extra firmware to be excluded.
 	# The server doesn't use Void Linux, so this is ignored.
-	IGNORE_SYSTEM_SPECIFIC_FIRMWARE = linux-firmware-amd
+	IGNORE_SYSTEM_SPECIFIC_FIRMWARE = ""
 endif
 
 NEED_PROCESSING := $(wildcard */*.pre)
