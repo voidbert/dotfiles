@@ -122,8 +122,12 @@ clear_swap()
 
 vifm()
 {
-	command vifm
-	theme.sh one-half-black
+	if [ "$TERM" = "foot" ]; then
+		command vifm
+		theme.sh one-half-black
+	else
+		foot vifm
+	fi
 }
 
 # Desktop apps (mostly Wayland fixes)
