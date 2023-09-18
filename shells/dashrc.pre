@@ -51,7 +51,9 @@ umount_server()
 	doas umount /mnt/server
 }
 
-# Git email configuration. My dev email is easy to find, but I don't always use it.
+# Git configuration. My dev email is easy to find, but I don't always use it.
+# Also, some functions to change the repository's remote URL, for repos hosted
+# on my home server.
 
 git_personal_email()
 {
@@ -61,6 +63,47 @@ git_personal_email()
 git_noreply_email()
 {
 	git config --global user.email "50591320+voidbert@users.noreply.github.com"
+}
+
+# $1 - target server
+# $2 - other possible value (not to edit repos not in home server)
+# $3 - message if target server is already met
+__git_helper() # Comment for dmenu_contents.sh not to detect method
+{
+	remote=$(git remote get-url origin | sed 's/:.*$//g ; s/^.*@//g')
+
+	if [ "$remote" = "$1" ]; then
+		echo "$3"
+		return 0
+	elif [ "$remote" = "$2" ]; then
+		path=$(git remote get-url origin | sed 's/^[^:]*://g')
+		if [ -z "$path" ]; then return 1; fi # git error
+
+		if git remote set-url origin "git@$1:$path"; then
+			remote=$(git remote get-url origin)
+			if [ $? -ne 0 ]; then return 1; fi # git error
+
+			echo "Remote changed to: $remote"
+			return 0
+		else
+			return 1
+		fi
+	elif [ -z "$remote" ]; then
+		return 1 # git error
+	else
+		echo "Not a repo hosted on the home server" >&2
+		return 1
+	fi
+}
+
+git_tadaima()
+{
+	__git_helper "rk322x-box" "%SERVER_DOMAIN%" "Remote already home!"
+}
+
+git_ittekimasu()
+{
+	__git_helper "%SERVER_DOMAIN%" "rk322x-box" "Remote already outside!"
 }
 
 # Memory related
