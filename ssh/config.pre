@@ -16,7 +16,7 @@ Host gitlab.com
 
 
 Host rk322x-box
-	HostName rk322x-box
+	HostName 192.168.1.128
 Host %SERVER_DOMAIN%
 	HostName %SERVER_DOMAIN%.duckdns.org
 
