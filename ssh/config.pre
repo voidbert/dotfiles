@@ -32,3 +32,10 @@ Host rk322x-box %SERVER_DOMAIN%
 	User fileshare
 	IdentityFile ~/.ssh/id_rsa_user_server
 
+
+
+Host s7edu.di.uminho.pt
+	User a104348
+	Hostname s7edu.di.uminho.pt
+	PreferredAuthentications publickey
+	IdentityFile ~/.ssh/id_rsa_search
