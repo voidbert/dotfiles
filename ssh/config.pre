@@ -17,8 +17,10 @@ Host gitlab.com
 
 Host rk322x-box
 	HostName 192.168.1.128
+	Port %SSH_PORT%
 Host %SERVER_DOMAIN%
 	HostName %SERVER_DOMAIN%.duckdns.org
+	Port %SSH_PORT%
 
 Host rk322x-box %SERVER_DOMAIN%
 	User voidbert
