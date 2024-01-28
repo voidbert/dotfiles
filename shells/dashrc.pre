@@ -152,9 +152,3 @@ logisim()
 	DISPLAY=:0 wmname LG3D
 	DISPLAY=:0 logisim-evolution
 }
-
-swayimg()
-{
-	command swayimg -b 000000 -w 000000 -n "$@"
-}
-

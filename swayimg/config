@@ -1,0 +1,11 @@
+# See `man swayimgrc` for details.
+
+[general]
+background = #000000
+
+[font]
+color = #ff0000
+shadow = none
+
+[info]
+mode = off

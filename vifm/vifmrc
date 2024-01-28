@@ -3,7 +3,7 @@ colorscheme iceberg
 " Images
 filextype *.png,*.jpg,*.jpeg,*.gif,*.svg,*.wepb,*.tiff,*.bmp
 	\ {Open with swayimg}
-	\ swayimg --window=000000 --no-sway %f %i &,
+	\ swayimg %f %i &,
 
 filextype *.xcf
  	\ {Open with GIMP}
