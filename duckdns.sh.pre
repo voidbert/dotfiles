@@ -4,6 +4,9 @@
 #
 # A script to update your IP in DuckDNS's servers, logging events to a file.
 #
+# Install it in a regular user's $HOME dir and set it up to run with a cron a
+# job: */5 * * * * /home/user/duckdns.sh >/dev/null 2>&1 (5 minutes)
+#
 # ---------------------------------- LICENSE ----------------------------------
 #
 # Copyright 2023 Humberto Gomes
@@ -31,11 +34,9 @@ token="%DUCKDNS_TOKEN%"
 # The path to the log file. Leave empty for no logging.
 log_file="%DUCKDNS_LOGFILE%"
 
-# The path to a temporary file for curl output.
-tmp_file="/tmp/duckdns"
-
 # ---------------------------------- SCRIPT ----------------------------------
 
+tmp_file=$(mktemp)
 url="https://www.duckdns.org/update?domains=$domains&token=$token&verbose=true"
 http_code=$(curl -s -w "%{http_code}" -o "$tmp_file" "$url")
 curl_code=$?
@@ -44,12 +45,12 @@ write=$(date +"%Y/%m/%d %H:%M:%S -")
 
 if [ "$curl_code" -eq 0 ]; then
 	if [ "$http_code" -eq 200 ]; then
-		if [ "$(head -n 1 $tmp_file)" = "OK" ]; then # OK and KO message
+		if [ "$(head -n 1 "$tmp_file")" = "OK" ]; then # OK and KO message
 			# Date - CHANGE/NOCHANGE (last lines) IP (2nd line)
-			write="$write $(tail -n 1 $tmp_file) $(sed -n "2p" $tmp_file)"
+			write="$write $(tail -n 1 "$tmp_file") $(sed -n "2p" "$tmp_file")"
 			return_code=0
 		else
-			write="$write DuckDNS KO. Here's the response:\n$(cat $tmp_file)"
+			write="$write DuckDNS KO. Here's the response:\n$(cat "$tmp_file")"
 			return_code=1
 		fi
 	else
@@ -58,7 +59,7 @@ if [ "$curl_code" -eq 0 ]; then
 		# Don't print the response it it's empty
 		pattern=$(printf '[^\s\r]') # printf for carriage return support
 		if grep "$pattern" "$tmp_file"; then
-			response=$(cat $tmp_file)
+			response="$(cat "$tmp_file")"
 			write="$write. Here's the response:\n$response"
 		fi
 
@@ -72,5 +73,6 @@ fi
 if [ -n "$log_file" ]; then
 	echo "$write" >> "$log_file"
 fi
-exit "$return_code"
 
+rm "$tmp_file"
+exit "$return_code"
