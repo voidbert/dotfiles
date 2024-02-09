@@ -56,7 +56,6 @@ SED_COMMAND = s/%SERVER_DOMAIN%/${SERVER_DOMAIN}/g ;$\
               s/%SSH_PORT%/${SSH_PORT}/g ;$\
               s/%DUCKDNS_TOKEN%/${DUCKDNS_TOKEN}/g ;$\
               s/%DUCKDNS_LOGFILE%/${DUCKDNS_LOGFILE_ESCAPED}/g ;$\
-              s/%IGNORE_SYSTEM_SPECIFIC_FIRMWARE%/${IGNORE_SYSTEM_SPECIFIC_FIRMWARE}/g ;$\
               s/%TARGET_SYSTEM%/${TARGET_SYSTEM}/g
 
 ${PROCESSED_DIR}/%: %.pre
