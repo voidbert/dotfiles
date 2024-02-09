@@ -48,7 +48,7 @@ DUCKDNS_LOGFILE := /storage/logs/duckdns.log
 
 # ----------------------------------- RULES -----------------------------------
 
-PROCESSING_OUT  := $(patsubst %.pre, ${PROCESSED_DIR}/%, $(wildcard */*.pre))
+PROCESSING_OUT  := $(patsubst %.pre, ${PROCESSED_DIR}/%, $(shell find . -name '*.pre' -type f))
 default: ${PROCESSING_OUT} ${PROCESSED_DIR}/xbps/perlhaters.conf
 
 DUCKDNS_LOGFILE_ESCAPED = $(shell echo "${DUCKDNS_LOGFILE}" | sed 's/\//\\\//g')
