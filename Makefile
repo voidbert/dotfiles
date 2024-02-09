@@ -1,6 +1,6 @@
 # ----------------------------------- ABOUT -----------------------------------
 #
-# This makefile processes dotfiles with the .pre extension, replacing variables
+# This Makefile processes dotfiles with the .pre extension, replacing variables
 # in %PERCENT_SIGNS% with their values. This makes it possible for me to
 # publish these dotfiles without revealing sensitive information, like my
 # server's domain.
@@ -23,43 +23,32 @@
 # ------------------------------- CONFIGURATION -------------------------------
 
 # Directory where preprocessed files are placed in
-PROCESSED_DIR   := processed
+PROCESSED_DIR := processed
 
 # Possibilities are:
-#   - desktop: A Void Linux desktop. Includes configs for graphical application
-#              and others.
-#   - laptop:  Contains all desktop configs, and also power management settings
-#   - server:  Configs for SSHd, iptables, PAMd, ...
-TARGET_SYSTEM   := laptop
+#   - desktop: A Void Linux desktop.
+#   - laptop:  A Void Linux laptop.
+#   - server:  An Armbian server.
+TARGET_SYSTEM := laptop
 
 # DuckDNS domain of your home server. E.g.: xxxxx.duckdns.org -> xxxxx
-SERVER_DOMAIN   := secret-domain
+SERVER_DOMAIN := secret-domain
 
 # A custom SSH port can be set to avoid script kiddies. Changes will break
 # remotes of exiting git repositories hosted on the server.
-SSH_PORT        := 22
+SSH_PORT := 22
 
 # SERVER EXCLUSIVE SETTINGS
 
 # The login token for DuckDNS
-DUCKDNS_TOKEN   := secret-token
+DUCKDNS_TOKEN := secret-token
 
 # The path where the logs of the duckdns cron job are stored
 DUCKDNS_LOGFILE := /storage/logs/duckdns.log
 
 # ----------------------------------- RULES -----------------------------------
 
-ifeq ($(TARGET_SYSTEM), desktop)
-	# Desktop has no NVIDIA components
-	IGNORE_SYSTEM_SPECIFIC_FIRMWARE = "ignorepkg=linux-firmware-nvidia"
-else
-	# Laptop has no extra firmware to be excluded.
-	# The server doesn't use Void Linux, so this is ignored.
-	IGNORE_SYSTEM_SPECIFIC_FIRMWARE = ""
-endif
-
-NEED_PROCESSING := $(wildcard */*.pre)
-PROCESSING_OUT  := $(patsubst %.pre, ${PROCESSED_DIR}/%, $(NEED_PROCESSING))
+PROCESSING_OUT  := $(patsubst %.pre, ${PROCESSED_DIR}/%, $(wildcard */*.pre))
 default: ${PROCESSING_OUT} ${PROCESSED_DIR}/xbps/perlhaters.conf
 
 DUCKDNS_LOGFILE_ESCAPED = $(shell echo "${DUCKDNS_LOGFILE}" | sed 's/\//\\\//g')
@@ -84,4 +73,3 @@ ${PROCESSED_DIR}/xbps/perlhaters.conf: xbps/ignorepkg.conf.pre
 .PHONY: clean
 clean:
 	@if [ -d "${PROCESSED_DIR}" ]; then rm -r "${PROCESSED_DIR}"; fi
-
