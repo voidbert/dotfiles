@@ -22,10 +22,17 @@
 vo=gpu
 hwdec=vaapi
 
-gpu-context=waylandvk
-gpu-api=vulkan
-
 ao=pipewire
 
 quiet=yes
 keep-open=yes
+
+[desktop]
+profile-cond=not %MPV_NO_VULKAN%
+gpu-context=waylandvk
+gpu-api=vulkan
+
+[laptop]
+profile-cond=%MPV_NO_VULKAN%
+gpu-context=wayland
+gpu-api=opengl

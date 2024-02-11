@@ -51,12 +51,19 @@ DUCKDNS_LOGFILE := /storage/logs/duckdns.log
 PROCESSING_OUT  := $(patsubst %.pre, ${PROCESSED_DIR}/%, $(shell find . -name '*.pre' -type f))
 default: ${PROCESSING_OUT} ${PROCESSED_DIR}/perlhaters.conf
 
+ifeq (${TARGET_SYSTEM},laptop)
+MPV_NO_VULKAN=true
+else
+MPV_NO_VULKAN=false
+endif
+
 DUCKDNS_LOGFILE_ESCAPED = $(shell echo "${DUCKDNS_LOGFILE}" | sed 's/\//\\\//g')
 SED_COMMAND = s/%SERVER_DOMAIN%/${SERVER_DOMAIN}/g ;$\
               s/%SSH_PORT%/${SSH_PORT}/g ;$\
               s/%DUCKDNS_TOKEN%/${DUCKDNS_TOKEN}/g ;$\
               s/%DUCKDNS_LOGFILE%/${DUCKDNS_LOGFILE_ESCAPED}/g ;$\
-              s/%TARGET_SYSTEM%/${TARGET_SYSTEM}/g
+              s/%TARGET_SYSTEM%/${TARGET_SYSTEM}/g ;$\
+              s/%MPV_NO_VULKAN%/${MPV_NO_VULKAN}/g
 
 ${PROCESSED_DIR}/%: %.pre
 	@mkdir -p $(shell dirname "${PROCESSED_DIR}/$<")
