@@ -49,7 +49,7 @@ DUCKDNS_LOGFILE := /storage/logs/duckdns.log
 # ----------------------------------- RULES -----------------------------------
 
 PROCESSING_OUT  := $(patsubst %.pre, ${PROCESSED_DIR}/%, $(shell find . -name '*.pre' -type f))
-default: ${PROCESSING_OUT} ${PROCESSED_DIR}/xbps/perlhaters.conf
+default: ${PROCESSING_OUT} ${PROCESSED_DIR}/perlhaters.conf
 
 DUCKDNS_LOGFILE_ESCAPED = $(shell echo "${DUCKDNS_LOGFILE}" | sed 's/\//\\\//g')
 SED_COMMAND = s/%SERVER_DOMAIN%/${SERVER_DOMAIN}/g ;$\
@@ -63,8 +63,7 @@ ${PROCESSED_DIR}/%: %.pre
 	@cat $< | sed -e "${SED_COMMAND}" > $@
 
 # Generate a file telling xbps to ignore all perl packages (wildcards aren't supported)
-${PROCESSED_DIR}/xbps/perlhaters.conf: xbps/ignorepkg.conf.pre
-	@mkdir -p "${PROCESSED_DIR}/xbps"
+${PROCESSED_DIR}/perlhaters.conf:
 	@if command -v xbps-query > /dev/null ; then \
 		xbps-query -Rs perl* | awk '{ print $$2 }' | \
 		sed -e 's/-[0-9_.]*$$//g ; s/^/ignorepkg=/' > "$@" ; fi
