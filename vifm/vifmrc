@@ -40,3 +40,6 @@ filextype *.xopp
 	\ {Open with Xournal++}
 	\ xournalpp %f %i &,
 
+filextype *.pcapng
+	\ {Open with Wireshark}
+	\ wireshark %f %i &,
