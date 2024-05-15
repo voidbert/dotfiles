@@ -51,6 +51,17 @@ umount_server()
 	doas umount /mnt/server
 }
 
+mount_cluster()
+{
+	doas sshfs -o allow_other,IdentityFile=/home/voidbert/.ssh/id_ed25519_macc \
+		voidbert@slurm.cluster.lsd.di.uminho.pt:/home/voidbert /mnt/cluster
+}
+
+umount_cluster()
+{
+	doas umount /mnt/cluster
+}
+
 # Git configuration. My dev email is easy to find, but I don't always use it.
 # Also, some functions to change the repository's remote URL, for repos hosted
 # on my home server.
