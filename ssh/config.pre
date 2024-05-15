@@ -41,3 +41,9 @@ Host s7edu.di.uminho.pt
 	Hostname s7edu.di.uminho.pt
 	PreferredAuthentications publickey
 	IdentityFile ~/.ssh/id_rsa_search
+
+Host cluster
+	Hostname slurm.cluster.lsd.di.uminho.pt
+	User voidbert
+	ForwardAgent no
+	IdentityFile ~/.ssh/id_ed25519_macc
