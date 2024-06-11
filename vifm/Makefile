@@ -1,9 +1,12 @@
-#!/bin/bash
-# bash is needed for "$@"
-
-# ---------------------------------- LICENSE ----------------------------------
+# --------------------------------------------- ABOUT ---------------------------------------------
+#
+# This Makefile defines rules for installing and uninstalling the configuration files pertaining to
+# this program.
+#
+# -------------------------------------------- LICENSE --------------------------------------------
 #
 # Copyright 2023 Humberto Gomes
+#
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
@@ -16,7 +19,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-# ---------------------------------- SCRIPT ----------------------------------
+# --------------------------------------------- RULES ---------------------------------------------
 
-DISPLAY=:0 wmname LG3D
-DISPLAY=:0 logisim-evolution "$@"
+install:
+	install -Dm 600 vifmrc $$HOME/.config/vifm/vifmrc
+
+uninstall:
+	rm -r $$HOME/.config/vifm

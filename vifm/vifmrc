@@ -1,45 +1,140 @@
-colorscheme iceberg
+" --------------------------------------------- ABOUT ---------------------------------------------
+" 
+" This file configures both vifm's behavior and appearance.
+"
+" -------------------------------------------- LICENSE --------------------------------------------
+"
+" Copyright 2023 Humberto Gomes
+"
+" Licensed under the Apache License, Version 2.0 (the "License");
+" you may not use this file except in compliance with the License.
+" You may obtain a copy of the License at
+"
+"    http://www.apache.org/licenses/LICENSE-2.0
+"
+" Unless required by applicable law or agreed to in writing, software
+" distributed under the License is distributed on an "AS IS" BASIS,
+" WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+" See the License for the specific language governing permissions and
+" limitations under the License.
+"
+" -------------------------------------------- GENERAL --------------------------------------------
 
-" Images
-filextype *.png,*.jpg,*.jpeg,*.gif,*.svg,*.wepb,*.tiff,*.bmp
-	\ {Open with swayimg}
-	\ swayimg %f %i &,
+" Behavior
+set incsearch
+set sortnumbers
 
-filextype *.xcf
- 	\ {Open with GIMP}
-	\ gimp --display :0 %f %i &,
+" Cosmetic
+set title
+set wildmenu
+set wildstyle=popup
 
-" Office documents
-filextype *.odt,*.fodt,*.ott,*.docx,*.doc,*.dotx,*.dot
-	\ {Open with Libreoffice Writer}
-	\ libreoffice %f %i &,
+set tabprefix=' '
+set tabsuffix=' '
 
-filextype *.ods,*.fods,*.ots,*.xlsx,*.xls,*.xltx,*.xlt
-	\ {Open with Libreoffce Calc}
-	\ libreoffice %f %i &,
+" Performance
+set syscalls
 
-filextype *.odp,*.fodp,*.ott,*.pptx,*.ppt,*.potx,*.pot,*.pps,*.ppsx
-	\ {Open with Libreoffice Impress}
-	\ libreoffice %f %i &,
+" --------------------------------------------- THEME ---------------------------------------------
 
-filextype *.pdf
-	\ {Open with Zathura}
-	\ zathura --fork %f %i,
+if $TERM == 'alacritty'
+    highlight Win          cterm=none      ctermfg=188 ctermbg=234
+    highlight AuxWin       cterm=bold      ctermfg=188 ctermbg=234
+    highlight Border       cterm=none      ctermfg=188 ctermbg=234
+    highlight TabLine      cterm=none      ctermfg=188 ctermbg=236
+    highlight TabLineSel   cterm=bold      ctermfg=188 ctermbg=234
+    highlight TopLine      cterm=none      ctermfg=188 ctermbg=236
+    highlight TopLineSel   cterm=bold      ctermfg=188 ctermbg=234
+    highlight CmdLine      cterm=none      ctermfg=188 ctermbg=234
+    highlight ErrorMsg     cterm=none      ctermfg=203 ctermbg=234
+    highlight StatusLine   cterm=none      ctermfg=188 ctermbg=236
+    highlight JobLine      cterm=none      ctermfg=240 ctermbg=236
+    highlight WildMenu     cterm=bold      ctermfg=188 ctermbg=24
+    highlight SuggestBox   cterm=none      ctermfg=188 ctermbg=236
+    highlight CurrLine     cterm=bold      ctermfg=188 ctermbg=24
+    highlight OtherLine    cterm=none      ctermfg=188 ctermbg=236
+    highlight OddLine      cterm=none      ctermfg=188 ctermbg=234
+    highlight LineNr       cterm=none      ctermfg=240 ctermbg=234
+    highlight Selected     cterm=none      ctermfg=188 ctermbg=236
+    highlight Directory    cterm=none      ctermfg=117 ctermbg=234
+    highlight Link         cterm=none      ctermfg=176 ctermbg=234
+    highlight BrokenLink   cterm=underline ctermfg=203 ctermbg=234
+    highlight HardLink     cterm=none      ctermfg=176 ctermbg=234
+    highlight Socket       cterm=none      ctermfg=179 ctermbg=234
+    highlight Device       cterm=none      ctermfg=179 ctermbg=234
+    highlight Executable   cterm=none      ctermfg=187 ctermbg=234
+    highlight Fifo         cterm=none      ctermfg=179 ctermbg=234
+    highlight CmpMismatch  cterm=none      ctermfg=203 ctermbg=234
+    highlight CmpUnmatched cterm=none      ctermfg=65  ctermbg=234
+    highlight CmpBlank     cterm=none      ctermfg=240 ctermbg=234
+else
+    highlight Win          cterm=none      ctermfg=15 ctermbg=0
+    highlight AuxWin       cterm=bold      ctermfg=15 ctermbg=0
+    highlight Border       cterm=none      ctermfg=15 ctermbg=0
+    highlight TabLine      cterm=none      ctermfg=15 ctermbg=8
+    highlight TabLineSel   cterm=bold      ctermfg=15 ctermbg=0
+    highlight TopLine      cterm=none      ctermfg=15 ctermbg=8
+    highlight TopLineSel   cterm=bold      ctermfg=15 ctermbg=0
+    highlight CmdLine      cterm=none      ctermfg=15 ctermbg=0
+    highlight ErrorMsg     cterm=none      ctermfg=9  ctermbg=0
+    highlight StatusLine   cterm=none      ctermfg=15 ctermbg=8
+    highlight JobLine      cterm=none      ctermfg=7  ctermbg=8
+    highlight WildMenu     cterm=bold      ctermfg=15 ctermbg=6
+    highlight SuggestBox   cterm=none      ctermfg=15 ctermbg=8
+    highlight CurrLine     cterm=bold      ctermfg=15 ctermbg=6
+    highlight OtherLine    cterm=none      ctermfg=15 ctermbg=8
+    highlight OddLine      cterm=none      ctermfg=15 ctermbg=0
+    highlight LineNr       cterm=none      ctermfg=8  ctermbg=0
+    highlight Selected     cterm=none      ctermfg=15 ctermbg=8
+    highlight Directory    cterm=none      ctermfg=14 ctermbg=0
+    highlight Link         cterm=none      ctermfg=13 ctermbg=0
+    highlight BrokenLink   cterm=underline ctermfg=13 ctermbg=0
+    highlight HardLink     cterm=none      ctermfg=13 ctermbg=0
+    highlight Socket       cterm=none      ctermfg=3  ctermbg=0
+    highlight Device       cterm=none      ctermfg=3  ctermbg=0
+    highlight Executable   cterm=none      ctermfg=11 ctermbg=0
+    highlight Fifo         cterm=none      ctermfg=3  ctermbg=0
+    highlight CmpMismatch  cterm=none      ctermfg=9  ctermbg=0
+    highlight CmpUnmatched cterm=none      ctermfg=10 ctermbg=0
+    highlight CmpBlank     cterm=none      ctermfg=8  ctermbg=0
+endif
 
-" Multimedia
-filextype *.3gp,*.3gpp,*.aac,*.avi,*.flac,*.mkv,*.mov,*.mp4,*.mp2,*.mp3,*.mpeg,*.ogg,*.opus,*.webm,*.wav,*.mod
-	\ {Open with mpv}
-	\ mpv --player-operation-mode=pseudo-gui %f %i &,
+" ---------------------------------------- CUSTOM COMMANDS ----------------------------------------
 
-" Other (not working for files with spaces)
-filextype *.circ
-	\ {Open with Logisim-evolution}
-	\ ~/.config/vifm/logisim.sh %f %i &,
+command! make !!make %a
+command! zip !zip -r %c.zip %f
+command! tar !tar cf %c.tar %f
+command! targz !tar czf %c.tar.gz %f
+command! tarbz2 !tar cjf %c.tar.bz2 %f
+command! tarxz !tar cJf %c.tar.xz %f
 
-filextype *.xopp
-	\ {Open with Xournal++}
-	\ xournalpp %f %i &,
+" ------------------------------------------- AUTOMOUNT -------------------------------------------
 
-filextype *.pcapng
-	\ {Open with Wireshark}
-	\ wireshark %f %i &,
+filetype *.tar,*.tar.gz,,*.tar.xz,*.zip,*.rar,*.iso,*.7z,*.jar
+    \ {Mount with ratarmount}
+    \ FUSE_MOUNT|ratarmount --index-file=':memory:' %SOURCE_FILE %DESTINATION_DIR
+ifelse(__SYSTEM_TYPE__, `SERVER', `', `esyscmd(`tail -n+23 vifm/workstation.1')')
+" ------------------------------------------- OPEN WITH -------------------------------------------
+
+" Archives
+filetype *.zip,*.jar
+    \ {Extract here}
+    \ unzip %c
+
+filetype *.tar
+    \ {Extract here}
+    \ tar xf %c
+
+filetype *.tar.gz
+    \ {Extract here}
+    \ tar xzf %c
+
+filetype *.tar.bz2
+    \ {Extract here}
+    \ tar xjf %c
+
+filetype *.tar.xz
+    \ {Extract here}
+    \ tar xJf %c
+ifelse(__SYSTEM_TYPE__, `SERVER', `', `esyscmd(`tail -n+23 vifm/workstation.2')')
+nnoremap o :file &<cr>

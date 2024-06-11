@@ -1,0 +1,98 @@
+" --------------------------------------------- ABOUT ---------------------------------------------
+" 
+" This file contains the second part of some extra vifm configuration options for workstation work
+" (associations of file types to the graphical programs that open them).
+"
+" -------------------------------------------- LICENSE --------------------------------------------
+"
+" Copyright 2023 Humberto Gomes
+"
+" Licensed under the Apache License, Version 2.0 (the "License");
+" you may not use this file except in compliance with the License.
+" You may obtain a copy of the License at
+"
+"    http://www.apache.org/licenses/LICENSE-2.0
+"
+" Unless required by applicable law or agreed to in writing, software
+" distributed under the License is distributed on an "AS IS" BASIS,
+" WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+" See the License for the specific language governing permissions and
+" limitations under the License.
+"
+" --------------------------------------------- CONFIG --------------------------------------------
+
+" Possibly text
+filetype *.dot
+    \ {Edit with vim}
+    \ vim %c
+
+" Images
+filextype *.apng " swayimg has no support for animation
+    \ {View in Firefox}
+    \ firefox %c %i &,
+
+filextype *.jpg,*.jpeg,*.jxl,*.png,*.gif,*.svg,*.wepb,*.heif,*.heifs,*.heic,*.heics,*.avci,*.avcs,*.HIF,*.avif,*.avifs,*.tiff,*.exr,*.bmp,*.pbm,*.pgm,*.ppm,*.pnm,*.tga,*.icb,*.vda,*.vst
+	\ {View in swayimg}
+	\ swayimg %c %i &,
+
+filextype *.jpg,*.jpeg,*.png,*.gif,*.svg,*.wepb,*.heif,*.heifs,*.heic,*.heics,*.avci,*.avcs,*.HIF,*.avif,*.avifs,*.tiff,*.exr,*.bmp,*.pbm,*.pgm,*.ppm,*.pnm,*.tga,*.icb,*.vda,*.vst
+ 	\ {Edit with GIMP}
+	\ gimp --display :0 %c %i &,
+
+filextype *.jpg,*.jpeg,*.png,*.svg,*.webp,*.gif,*.avif,*.avifs,*.tiff,*.bmp
+    \ {View in Firefox}
+    \ firefox %c %i &,
+
+" Office documents
+filextype *.odt,*.fodt,*.ott,*.docx,*.doc,*.dotx,*.dot
+	\ {Edit with LibreOffice Writer}
+	\ libreoffice %c %i &,
+
+filextype *.ods,*.fods,*.ots,*.xlsx,*.xls,*.xltx,*.xlt
+	\ {Edit with LibreOffice Calc}
+	\ libreoffice %c %i &,
+
+filextype *.odp,*.fodp,*.ott,*.pptx,*.ppt,*.potx,*.pot,*.pps,*.ppsx
+	\ {Edit with LibreOffice Impress}
+	\ libreoffice %c %i &,
+
+filextype *.pdf
+	\ {View in Zathura}
+	\ zathura --fork %c %i,
+	\ {View in Firefox}
+    \ firefox %c %i,
+
+filextype *.xopp
+	\ {Edit with Xournal++}
+	\ xournalpp %c %i &,
+
+" Multimedia
+filextype *.wav,*.avi,*.flac,*.ogg,*.opus,*.mpeg,*.mp2,*.mp3,*.mp4,*.m4v,*.aac,*.webm,*.mkv,*.mov,*.mod,*.3gp,*.3gpp,
+    \ {Play with mpv}
+    \ mpv --player-operation-mode=pseudo-gui %c %i &,
+
+filetype *.wav,*.avi,*.flac,*.ogg,*.opus,*.mpeg,*.mp2,*.mp3,*.mp4,*.m4v,*.aac,*.webm,*.mkv,*.mov,*.mod,*.3gp,*.3gpp,
+    \ {Play with mpv in DRM}
+    \ mpv --player-operation-mode=pseudo-gui --vo=drm --ao=alsa %c %i &,
+
+" Other
+filextype *.html,*.htm,*.xhtml
+    \ {View in Firefox}
+    \ firefox %c $i &,
+
+filextype *.circ
+	\ {Edit with logisim-evolution}
+	\ sh -c 'DISPLAY=:0 wmname LG3D && DISPLAY=:0 logisim-evolution $1' _ %c &,
+
+filextype *.pcapng
+	\ {View in Wireshark}
+	\ wireshark %c %i &,
+
+" Last resort
+filetype *
+    \ {Edit with Vim}
+    \ vim %c
+
+filextype *
+    \ {Edit with Vim in another window}
+    \ alacritty -e vim %c %i &
