@@ -1,9 +1,1 @@
-.DS_Store
-
-# Sway's barinfo build objects
-sway/barinfo/build
-sway/barinfo/obj
-sway/barinfo/docs
-
-# The default output of the dotfile preprocessor
-processed/**
+build/**
