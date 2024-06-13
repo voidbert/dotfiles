@@ -5,7 +5,7 @@
 #
 # -------------------------------------------- LICENSE --------------------------------------------
 #
-# Copyright 2023 Humberto Gomes
+# Copyright 2024 Humberto Gomes
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -22,7 +22,7 @@
 # --------------------------------------------- RULES ---------------------------------------------
 
 install:
-	install -Dm 600 vifmrc $$HOME/.config/vifm/vifmrc
+	install -Dm 644 vifmrc $$HOME/.config/vifm/vifmrc
 
 uninstall:
 	rm -r $$HOME/.config/vifm

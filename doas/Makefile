@@ -5,7 +5,7 @@
 #
 # -------------------------------------------- LICENSE --------------------------------------------
 #
-# Copyright 2023 Humberto Gomes
+# Copyright 2024 Humberto Gomes
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -23,7 +23,7 @@
 
 install:
 define(__INSTALL_FILE__, `ifelse(__SYSTEM_TYPE__, `SERVER', `doas.server.conf', `doas.workstation.conf')')dnl
-	doas install -Dm 400 __INSTALL_FILE__ /etc/doas.conf
+	doas install -Dm 644 __INSTALL_FILE__ /etc/doas.conf
 
 uninstall:
 	doas printf "" > /etc/doas.conf

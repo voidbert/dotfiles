@@ -5,7 +5,7 @@
 #
 # -------------------------------------------- LICENSE --------------------------------------------
 #
-# Copyright 2023 Humberto Gomes
+# Copyright 2024 Humberto Gomes
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -22,9 +22,8 @@
 # --------------------------------------------- RULES ---------------------------------------------
 
 install:
-define(__INSTALL_COMMAND__, `	install -Dm 600 settings.ini $$HOME/.config/gtk-3.0/settings.ini')dnl
-ifelse(__SYSTEM_TYPE__, `DESKTOP', __INSTALL_COMMAND__, __SYSTEM_TYPE__, `LAPTOP', __INSTALL_COMMAND__)
+ifelse(__SYSTEM_TYPE__, `SERVER', `', `	install -Dm 644 settings.ini $$HOME/.config/gtk-3.0/settings.ini
+')dnl
 
 uninstall:
-define(__UNINSTALL_COMMAND__, `	rm -r $$HOME/.config/gtk-3.0')dnl
-ifelse(__SYSTEM_TYPE__, `DESKTOP', __UNINSTALL_COMMAND__, __SYSTEM_TYPE__, `LAPTOP', __UNINSTALL_COMMAND__, `')
+ifelse(__SYSTEM_TYPE__, `SERVER', `', `	rm -r $$HOME/.config/gtk-3.0')
