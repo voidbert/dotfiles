@@ -110,7 +110,7 @@ command! tarxz !tar cJf %c.tar.xz %f
 
 " ------------------------------------------- AUTOMOUNT -------------------------------------------
 
-filetype *.tar,*.tar.gz,,*.tar.xz,*.zip,*.rar,*.iso,*.7z,*.jar
+filetype *.tar,*.tar.gz,*.tar.xz,*.zip,*.rar,*.iso,*.7z,*.jar
     \ {Mount with ratarmount}
     \ FUSE_MOUNT|ratarmount --index-file=':memory:' %SOURCE_FILE %DESTINATION_DIR
 ifelse(__SYSTEM_TYPE__, `SERVER', `', `esyscmd(`tail -n+23 vifm/workstation.1')')
