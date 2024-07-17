@@ -22,8 +22,9 @@
 # --------------------------------------------- RULES ---------------------------------------------
 
 install:
-ifelse(__SYSTEM_TYPE__, `SERVER', `', `	doas sh -c "install -Dm 644 ignorepkg.conf /etc/xbps.d/ignorepkg.conf && install -Dm 644 ignoreperl.conf /etc/xbps.d/ignoreperl.conf"
-')dnl
+ifelse(__SYSTEM_TYPE__, `SERVER', `dnl', `
+	doas sh -c "install -Dm 644 ignorepkg.conf /etc/xbps.d/ignorepkg.conf && install -Dm 644 ignoreperl.conf /etc/xbps.d/ignoreperl.conf"')
 
 uninstall:
-ifelse(__SYSTEM_TYPE__, `SERVER', `', `	doas rm -r /etc/xbps.d')
+ifelse(__SYSTEM_TYPE__, `SERVER', `dnl', `dnl
+	doas rm -r /etc/xbps.d')

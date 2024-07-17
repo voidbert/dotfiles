@@ -22,8 +22,9 @@
 # --------------------------------------------- RULES ---------------------------------------------
 
 install:
-ifelse(__SYSTEM_TYPE__, `SERVER', `', `	install -Dm 644 config $$HOME/.config/swayimg/config
-')dnl
+ifelse(__SYSTEM_TYPE__, `SERVER', `dnl', `dnl
+	install -Dm 644 config $$HOME/.config/swayimg/config')
 
 uninstall:
-ifelse(__SYSTEM_TYPE__, `SERVER', `', `	rm -r $$HOME/.config/swayimg/')
+ifelse(__SYSTEM_TYPE__, `SERVER', `dnl', `dnl
+	rm -r $$HOME/.config/swayimg/')

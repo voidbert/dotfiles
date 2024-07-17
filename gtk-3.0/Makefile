@@ -22,8 +22,9 @@
 # --------------------------------------------- RULES ---------------------------------------------
 
 install:
-ifelse(__SYSTEM_TYPE__, `SERVER', `', `	install -Dm 644 settings.ini $$HOME/.config/gtk-3.0/settings.ini
-')dnl
+ifelse(__SYSTEM_TYPE__, `SERVER', `dnl', `dnl
+	install -Dm 644 settings.ini $$HOME/.config/gtk-3.0/settings.ini')
 
 uninstall:
-ifelse(__SYSTEM_TYPE__, `SERVER', `', `	rm -r $$HOME/.config/gtk-3.0')
+ifelse(__SYSTEM_TYPE__, `SERVER', `dnl', `dnl
+	rm -r $$HOME/.config/gtk-3.0')

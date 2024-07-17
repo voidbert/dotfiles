@@ -22,8 +22,9 @@
 # --------------------------------------------- RULES ---------------------------------------------
 
 install:
-ifelse(__SYSTEM_TYPE__, `SERVER', `', `	install -Dm 644 mpv.conf $$HOME/.config/mpv/mpv.conf
-')dnl
+ifelse(__SYSTEM_TYPE__, `SERVER', `dnl', `dnl
+	install -Dm 644 mpv.conf $$HOME/.config/mpv/mpv.conf')
 
 uninstall:
-ifelse(__SYSTEM_TYPE__, `SERVER', `', `	rm -r $$HOME/.config/mpv')
+ifelse(__SYSTEM_TYPE__, `SERVER', `dnl', `dnl
+	rm -r $$HOME/.config/mpv')
