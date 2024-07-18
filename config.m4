@@ -39,4 +39,7 @@ define(`__SIGNAL_DESTINATION__', `+351_________')
 # A secondary phone number, that will send Signal messages with warnings from the server.
 define(`__SIGNAL_SOURCE__', `+351_________')
 
+# The UUID of the server's storage partition.
+define(`__USB_UUID__', `ffffffff-ffff-ffff-ffff-ffffffffffff')
+
 divert(0)dnl

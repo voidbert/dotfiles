@@ -26,10 +26,11 @@ CRONTAB := /var/spool/cron/crontabs/voidbert', `dnl')
 install:
 ifelse(__SYSTEM_TYPE__, `SERVER', `dnl
 	doas sh -c "install -Dm 600 crontab $(CRONTAB) && chown voidbert $(CRONTAB) && chgrp crontab $(CRONTAB)"
-	install -Dm 744 duckdns.sh $$HOME/cron/duckdns.sh
-	install -Dm 744 signal.sh $$HOME/cron/signal.sh', `dnl')
+	install -Dm 644 signal.sh $$HOME/cron/signal.sh
+	install -Dm 744 automount.sh $$HOME/cron/automount.sh
+	install -Dm 744 duckdns.sh $$HOME/cron/duckdns.sh', `dnl')
 
 uninstall:
 ifelse(__SYSTEM_TYPE__, `SERVER', `dnl
 	doas sh -c "rm /var/spool/cron/crontabs/voidbert"
-	rm $$HOME/cron/duckdns.sh $$HOME/cron/signal.sh', `dnl')
+	rm $$HOME/cron/signal.sh $$HOME/cron/automount.sh $$HOME/cron/duckdns.sh', `dnl')
