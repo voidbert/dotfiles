@@ -29,7 +29,7 @@ partition=$(readlink -e "/dev/disk/by-uuid/__USB_UUID__" 2> /dev/null)
 if [ $? -eq 0 ]; then
     if ! mount | grep -q "$partition"; then
         text_message="USB stick was unmounted but auto-mount succeeded!"
-        if ! mount -U '__USB_UUID__'; then
+        if ! doas -n /usr/bin/mount -U '__USB_UUID__'; then
             text_message="USB stick was unmounted and auto-mount failed! Admin action is needed!"
             return_code=1
         fi
