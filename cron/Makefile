@@ -21,16 +21,21 @@
 #
 # --------------------------------------------- RULES ---------------------------------------------
 ifelse(__SYSTEM_TYPE__, `SERVER', `
-CRONTAB := /var/spool/cron/crontabs/voidbert', `dnl')
+CRONTAB := /var/spool/cron/crontabs/$$(whoami)', `dnl')
 
 install:
 ifelse(__SYSTEM_TYPE__, `SERVER', `dnl
-	doas sh -c "install -Dm 600 crontab $(CRONTAB) && chown voidbert $(CRONTAB) && chgrp crontab $(CRONTAB)"
-	install -Dm 644 signal.sh $$HOME/cron/signal.sh
+	doas sh -c "install -Dm 600 crontab $(CRONTAB) && chown $$(whoami) $(CRONTAB) && chgrp crontab $(CRONTAB)"
+	[ -d $$HOME/cron ] || mkdir -m 0755 $$HOME/cron
+	[ -d $$HOME/cron/signal ] || mkdir -m 0755 $$HOME/cron/signal
+	[ -d $$HOME/cron/signal/signal-cli-data ] || mkdir -m 0755 $$HOME/cron/signal/signal-cli-data
+	install -Dm 744 signal/signal.sh $$HOME/cron/signal/signal.sh
+	install -Dm 744 signal/managesignal.sh $$HOME/cron/signal/managesignal.sh
 	install -Dm 744 automount.sh $$HOME/cron/automount.sh
-	install -Dm 744 duckdns.sh $$HOME/cron/duckdns.sh', `dnl')
+	install -Dm 744 duckdns.sh $$HOME/cron/duckdns.sh
+	yes | $$HOME/cron/signal/managesignal.sh install
+	@printf "\n\033[1;31msignal-cli still needs to be manually configured\033[22;39m\n\n"', `dnl'])
 
 uninstall:
 ifelse(__SYSTEM_TYPE__, `SERVER', `dnl
-	doas sh -c "rm /var/spool/cron/crontabs/voidbert"
-	rm $$HOME/cron/signal.sh $$HOME/cron/automount.sh $$HOME/cron/duckdns.sh', `dnl')
+	doas sh -c "rm -rf /var/spool/cron/crontabs/$$(whoami) $$HOME/cron"', `dnl')

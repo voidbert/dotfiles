@@ -48,13 +48,8 @@ else
 fi
 
 if [ -n "$text_message" ]; then
-    . ./signal.sh
     echo "$text_message" 1>&2
-    second_log_message=$(send_signal_message "$text_message")
-    if [ $? -ne 0 ]; then
-        echo "$second_log_message" 1>&2
-        return_code=0
-    fi
+    ./signal/signal.sh send "$text_message"
 fi
 
 rm "$http_response_payload"

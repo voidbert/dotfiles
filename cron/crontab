@@ -24,5 +24,6 @@ changequote(`«', `»')dnl
 #
 # -------------------------------------------- TASKS ---------------------------------------------
 
-*/1 * * * * cd /home/voidbert/cron && ./automount.sh >/dev/null
-*/5 * * * * cd /home/voidbert/cron && ./duckdns.sh >/dev/null
+*/1 * * * * cd /home/$(whoami)/cron && ./automount.sh >/dev/null
+*/5 * * * * cd /home/$(whoami)/cron && ./duckdns.sh >/dev/null
+0 2 * * * cd /home/$(whoami)/cron/signal && ./signal.sh receive >/dev/null
