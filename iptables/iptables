@@ -1,0 +1,46 @@
+# --------------------------------------------- ABOUT ---------------------------------------------
+#
+# Firewall rules with SSH rate and connection limits. No forwarding or other inbound connections are
+# accepted.
+#
+# -------------------------------------------- LICENSE --------------------------------------------
+#
+# Copyright 2024 Humberto Gomes
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+# --------------------------------------------- RULES ---------------------------------------------
+
+*filter
+:INPUT DROP [0:0]
+:FORWARD DROP [0:0]
+:OUTPUT ACCEPT [0:0]
+
+# Established connections (NTP, apt updates, signal-cli, ...)
+-I INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+
+# Loopback
+-A INPUT -i lo -j ACCEPT
+-A OUTPUT -o lo -j ACCEPT
+
+# Accept incoming SSH connections
+-A INPUT -p tcp -m tcp --dport __SSH_PORT__ -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
+
+# SSH connection frequency limiting
+-I INPUT -p tcp -m tcp --dport __SSH_PORT__ -m state --state NEW -m recent --set
+-I INPUT -p tcp -m tcp --dport __SSH_PORT__ -m state --state NEW -m recent --update --seconds 60 --hitcount 5 -j DROP
+
+# SSH maximum number of simultaneous connections
+-A INPUT -p tcp --syn --dport __SSH_PORT__ -m connlimit --connlimit-above 3 -j REJECT
+
+COMMIT

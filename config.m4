@@ -28,6 +28,9 @@ define(`__SYSTEM_TYPE__', `SERVER')
 # DuckDNS domain of my home server (__SERVER_DOMAIN__.duckdns.org).
 define(`__SERVER_DOMAIN__', `________')
 
+# Port to connect to SSH.
+define(`__SSH_PORT__', `22')
+
 # -------------------------------------- SERVER-ONLY SETTINGS -------------------------------------
 
 # DuckDNS's login token.
