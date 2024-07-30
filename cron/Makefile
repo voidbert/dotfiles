@@ -34,7 +34,7 @@ ifelse(__SYSTEM_TYPE__, `SERVER', `dnl
 	install -Dm 744 automount.sh $$HOME/cron/automount.sh
 	install -Dm 744 duckdns.sh $$HOME/cron/duckdns.sh
 	yes | $$HOME/cron/signal/managesignal.sh install
-	@printf "\n\033[1;31msignal-cli still needs to be manually configured\033[22;39m\n\n"', `dnl'])
+	@printf "\n\033[1;31msignal-cli still needs to be manually configured\033[22;39m\n\n"', `dnl')
 
 uninstall:
 ifelse(__SYSTEM_TYPE__, `SERVER', `dnl
