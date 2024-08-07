@@ -178,8 +178,12 @@ update_signal() {
         $([ "$current_lib_version" != "$newest_lib_version" ] && \
             echo "wget -q \"$lib_url\" -O /tmp/libsignal_jni.so &&")
         $([ "$current_cli_version" != "$newest_cli_version" ] && \
-            echo "wget -q \"$cli_url\" -O - 2> /dev/null | tar -xzf --overwrite - -C /opt &&")
+            echo "
+                wget -q \"$cli_url\" -O - 2> /dev/null | tar -xzf --overwrite - -C /opt &&
+                rm -r /opt/signal-cli-$current_cli_version &&
+            ")
         cd /usr/lib && zip -qu /opt/signal-cli-$newest_cli_version/lib/libsignal-client-$newest_lib_version.jar libsignal_jni.so &&
+        ln -sf /opt/signal-cli-$newest_cli_version/bin/signal-cli /usr/bin/signal-cli &&
         echo \"$version_file\" > /home/signal/.signal_version
     " | doas /bin/sh -c "$mount_and_chroot"
 }
