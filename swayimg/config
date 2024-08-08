@@ -1,6 +1,6 @@
 # --------------------------------------------- ABOUT ---------------------------------------------
 #
-# See `man 5 swayimgrc` for more details.
+# Configuration for the swayimg image viewer. See `man 5 swayimgrc` for more details.
 #
 # -------------------------------------------- LICENSE --------------------------------------------
 #
@@ -21,11 +21,100 @@
 # ----------------------------------------- CONFIGURATION -----------------------------------------
 
 [general]
-background = #000000
+mode = viewer
+size=1000,700
+app_id = swayimg
+
+[viewer]
+window = #000000
+transparency = grid
+
+scale = fit
+fixed = yes
+antialiasing = yes
+
+slideshow = no
+slideshow_time = 0
+history=0
+preload=0
+
+[list]
+order = alpha
+loop = yes
+recusive = no
+all = yes
 
 [font]
-color = #ff0000
-shadow = none
+name = monospace
+size = 12
+color = #ff00ff
+shadow = #000000
 
 [info]
-mode = off
+show = no
+info_timeout = 0
+status_timeout = 3
+
+[info.viewer]
+top_left = name,format
+top_right = scale,frame
+bottom_left = none
+bottom_right = status
+
+[keys.viewer]
+
+# Disable help menu, gallery mode, file skipping, slideshow and echo
+F1 = none
+Return = none
+c = none
+Shift+s = none
+e = none
+
+# Force the user to use window manager key bindings for quitting and fullscreen
+Escape = none
+q = none
+f = none
+
+# Disable some file navigation key bindings
+Space = none
+Shift+d = none
+d = none
+
+# New animation key bindings (like YouTube's)
+s = none
+Shift+o = none
+o = none
+
+Space = animation
+, = prev_frame
+. = next_frame
+
+# New zoom key bindings
+Equal = none
+w = none
+Shift+w = none
+Shift+z = none
+
+z = zoom real
+Shift+z = zoom fit
+
+# New rotate and flip key bindings
+bracketleft = none
+bracketright = none
+m = none
+Shift+m = none
+
+r = rotate_right
+Shift+r = rotate_left
+f = flip_horizontal
+Shift+f = flip_vertical
+
+# Disable all scrolling actions except for zooming
+ScrollLeft = none
+ScrollRight = none
+ScrollUp = none
+ScrollDown = none
+Shift+ScrollUp = none
+Shift+ScrollDown = none
+Alt+ScrollUp = none
+Alt+ScrollDown = none
