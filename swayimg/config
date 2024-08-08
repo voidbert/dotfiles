@@ -34,14 +34,13 @@ fixed = yes
 antialiasing = yes
 
 slideshow = no
-slideshow_time = 0
 history=0
 preload=0
 
 [list]
 order = alpha
 loop = yes
-recusive = no
+recursive = no
 all = yes
 
 [font]
