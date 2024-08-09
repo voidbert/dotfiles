@@ -1,7 +1,9 @@
+changequote(`«', `»')dnl
 " --------------------------------------------- ABOUT ---------------------------------------------
 " 
 " This file contains the second part of some extra vifm configuration options for workstation work
-" (associations of file types to the graphical programs that open them).
+" (associations of file types to the graphical programs that open them). See `man 1 vifm` for more
+" information.
 "
 " -------------------------------------------- LICENSE --------------------------------------------
 "
@@ -21,78 +23,80 @@
 "
 " --------------------------------------------- CONFIG --------------------------------------------
 
-" Possibly text
-filetype *.dot
+" More likely to be a DOT graph rather than an Office document
+filetype /\.dot$/i
     \ {Edit with vim}
     \ vim %c
 
 " Images
-filextype *.apng " swayimg has no support for animation
+filextype /\\.apng$/i
     \ {View in Firefox}
-    \ firefox %c %i &,
+    \ firefox %c %i &
 
-filextype *.jpg,*.jpeg,*.jxl,*.png,*.gif,*.svg,*.wepb,*.heif,*.heifs,*.heic,*.heics,*.avci,*.avcs,*.HIF,*.avif,*.avifs,*.tiff,*.exr,*.bmp,*.pbm,*.pgm,*.ppm,*.pnm,*.tga,*.icb,*.vda,*.vst
+filextype /\\.(jpg|jpeg|jxl|png|gif|svg|wepb|heif|heifs|heic|heics|avci|avcs|hif|avif|avifs|tiff|tif|exr|bmp|pbm|pgm|ppm|pnm|tga|icb|vda|vst)$/i
 	\ {View in swayimg}
-	\ swayimg %c %i &,
+	\ sh -c 'unset SWAYSOCK && swayimg "$0"' %c %i &
 
-filextype *.jpg,*.jpeg,*.png,*.gif,*.svg,*.wepb,*.heif,*.heifs,*.heic,*.heics,*.avci,*.avcs,*.HIF,*.avif,*.avifs,*.tiff,*.exr,*.bmp,*.pbm,*.pgm,*.ppm,*.pnm,*.tga,*.icb,*.vda,*.vst
+filextype /\\.(jpg|jpeg|jxl|png|gif|svg|wepb|heif|heifs|heic|heics|avci|avcs|hif|avif|avifs|tiff|tif|exr|bmp|pbm|pgm|ppm|pnm|tga|icb|vda|vst)$/i
  	\ {Edit with GIMP}
-	\ gimp --display :0 %c %i &,
+	\ gimp --display :0 %c %i &
 
-filextype *.jpg,*.jpeg,*.png,*.svg,*.webp,*.gif,*.avif,*.avifs,*.tiff,*.bmp
+filextype /\\.(jpg|jpeg|png|gif|svg|wepb|avif|avifs|bmp)$/i
     \ {View in Firefox}
-    \ firefox %c %i &,
+    \ firefox %c %i &
 
 " Office documents
-filextype *.odt,*.fodt,*.ott,*.docx,*.doc,*.dotx,*.dot
+filextype /\\.(odt|fodt|ott|docx|doc|dotx|dot)$/i
 	\ {Edit with LibreOffice Writer}
-	\ libreoffice %c %i &,
+	\ libreoffice %c %i &
 
-filextype *.ods,*.fods,*.ots,*.xlsx,*.xls,*.xltx,*.xlt
+filextype /\\.(ods|fods|ots|xlsx|xls|xltx|xlt)$/i
 	\ {Edit with LibreOffice Calc}
-	\ libreoffice %c %i &,
+	\ libreoffice %c %i &
 
-filextype *.odp,*.fodp,*.ott,*.pptx,*.ppt,*.potx,*.pot,*.pps,*.ppsx
+filextype /\\.(odp|fodp|ott|pptx|ppt|potx|pot|pps|ppsx)$/i
 	\ {Edit with LibreOffice Impress}
-	\ libreoffice %c %i &,
+	\ libreoffice %c %i &
 
-filextype *.pdf
+filextype /\\.pdf$/i
 	\ {View in Zathura}
 	\ zathura --fork %c %i,
 	\ {View in Firefox}
-    \ firefox %c %i,
+    \ firefox %c %i &
 
-filextype *.xopp
+filextype /\\.xopp$/i
 	\ {Edit with Xournal++}
-	\ xournalpp %c %i &,
+	\ xournalpp %c %i &
 
 " Multimedia
-filextype *.wav,*.avi,*.flac,*.ogg,*.opus,*.mpeg,*.mp2,*.mp3,*.mp4,*.m4v,*.aac,*.webm,*.mkv,*.mov,*.mod,*.3gp,*.3gpp,
+filextype /\\.(wav|avi|flac|ogg|opus|mpeg|mp2|mp3|mp4|m4v|aac|webm|mkv|mov|mod|3gp|3gpp)$/i
     \ {Play with mpv}
-    \ mpv --player-operation-mode=pseudo-gui %c %i &,
+    \ mpv --player-operation-mode=pseudo-gui %c %i &
 
-filetype *.wav,*.avi,*.flac,*.ogg,*.opus,*.mpeg,*.mp2,*.mp3,*.mp4,*.m4v,*.aac,*.webm,*.mkv,*.mov,*.mod,*.3gp,*.3gpp,
-    \ {Play with mpv in DRM}
-    \ mpv --player-operation-mode=pseudo-gui --vo=drm --ao=alsa %c %i &,
+if $WAYLAND_DISPLAY == ''
+    filetype /\\.(wav|avi|flac|ogg|opus|mpeg|mp2|mp3|mp4|m4v|aac|webm|mkv|mov|mod|3gp|3gpp)$/i
+        \ {Play with mpv in DRM}
+        \ mpv --player-operation-mode=pseudo-gui --vo=drm --ao=alsa %c %i &
+endif
 
 " Other
-filextype *.html,*.htm,*.xhtml
+filextype /\\.(html|htm|xhtml)$/i
     \ {View in Firefox}
-    \ firefox %c $i &,
+    \ firefox %c $i &
 
-filextype *.circ
+filextype /\\.circ$/i
 	\ {Edit with logisim-evolution}
-	\ sh -c 'DISPLAY=:0 wmname LG3D && DISPLAY=:0 logisim-evolution $1' _ %c &,
+	\ sh -c 'DISPLAY=:0 (wmname LG3D && logisim-evolution "$0")' %c %i &
 
-filextype *.pcapng
+filextype /\\.pcapng$/i
 	\ {View in Wireshark}
-	\ wireshark %c %i &,
+	\ wireshark %c %i &
 
-" Last resort
-filetype *
+" Last resort (and don't show "Edit with Vim" twice for dot files)
+filetype !/\\.dot$/i
     \ {Edit with Vim}
     \ vim %c
 
-filextype *
+filextype /.*/
     \ {Edit with Vim in another window}
     \ alacritty -e vim %c %i &
