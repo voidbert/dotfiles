@@ -1,7 +1,8 @@
+#!/bin/sh
+
 # --------------------------------------------- ABOUT ---------------------------------------------
 #
-# This Makefile defines rules for installing and uninstalling the configuration files pertaining to
-# this program.
+# A wrapper around xbps-(install|update|delete) that automatically updates wmenu.
 #
 # -------------------------------------------- LICENSE --------------------------------------------
 #
@@ -19,16 +20,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-# --------------------------------------------- RULES ---------------------------------------------
+# -------------------------------------------- WRAPPER --------------------------------------------
 
-install:
-ifelse(__SYSTEM_TYPE__, `SERVER', `dnl', `dnl
-	install -Dm 744 xbps-action $$HOME/.local/bin/xbps-install
-	install -Dm 744 xbps-action $$HOME/.local/bin/xbps-update
-	install -Dm 744 xbps-action $$HOME/.local/bin/xbps-remove
-	doas sh -c "install -Dm 644 ignorepkg.conf /etc/xbps.d/ignorepkg.conf && install -Dm 644 ignoreperl.conf /etc/xbps.d/ignoreperl.conf"')
-
-uninstall:
-ifelse(__SYSTEM_TYPE__, `SERVER', `dnl', `dnl
-	rm $$HOME/.local/bin/xbps-install $$HOME/.local/bin/xbps-update $$HOME/.local/bin/xbps-remove
-	doas rm -r /etc/xbps.d')
+PATH="$(echo "$PATH" | sed "s/$(dirname "$(realpath "$0")" | sed 's:/:\\/:g')://g")"
+"$(basename "$0")" "$@"
+flock -nF "$XDG_RUNTIME_DIR/wmenu_lock" /home/voidbert/.config/sway/wmenu.sh --cache &

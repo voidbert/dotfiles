@@ -23,11 +23,6 @@
 #
 # ---------------------------------- SCRIPT ----------------------------------
 
-update_dmenu()
-{
-	/home/voidbert/.config/sway/dmenu_commands.sh -c
-}
-
 # Mounting disks
 
 user_mount()
