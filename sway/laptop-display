@@ -1,5 +1,0 @@
-# Sway display and wallpaper configuration for my laptop computer
-
-output eDP-1 resolution 1366x768@60.059Hz position 0 0
-output * bg "~/Pictures/Wallpapers/EOE.png" fill
-

@@ -1,0 +1,250 @@
+changequote(`«', `»')dnl
+# --------------------------------------------- ABOUT ---------------------------------------------
+#
+# Configuration for the sway tiling window manager. Read `man 5 sway` for more details.
+#
+# -------------------------------------------- LICENSE --------------------------------------------
+#
+# Copyright 2024 Humberto Gomes
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+# -------------------------------------------- STARTUP --------------------------------------------
+
+# Programs
+exec mako & pipewire & pipewire-pulse & wireplumber & ~/.config/sway/kill-xwayland.sh
+xwayland enable
+
+# Configuration variables
+set $mod Mod4
+set $notification_timeout 2000
+set $screenshot_file "$(xdg-user-dir PICTURES)/Screenshot_$(date +"%Y-%m-%d_%H-%M-%S").png"
+
+# -------------------------------------------- DISPLAY --------------------------------------------
+
+ifelse(__SYSTEM_TYPE__, «DESKTOP», «dnl
+output HDMI-A-1 {
+    resolution 1920x1080@60Hz
+    position 0 0
+    bg "~/Pictures/Wallpapers/Kimi no na wa.jpg" fill
+}
+
+output DP-1 {
+    resolution 1366x768@59.790Hz
+    position 1920 220
+    bg "~/Pictures/Wallpapers/Kimi no na wa 2.jpg" fill
+}», «dnl
+output eDP-1 {
+    resolution 1366x768@60.059Hz
+    position 0 0
+    output * bg "~/Pictures/Wallpapers/EOE.png" fill
+}»)
+
+# --------------------------------------------- INPUT ---------------------------------------------
+ifelse(__SYSTEM_TYPE__, «LAPTOP», «
+input "type:touchpad" {
+    tap enabled
+    tap_button_map lrm
+
+    natural_scroll enabled
+    scroll_factor 0.6
+
+    pointer_accel -0.1
+}», «dnl»)
+
+input "type:pointer" {
+    accel_profile "adaptive"
+    pointer_accel 0.1
+}
+
+input "type:keyboard" {
+    xkb_layout pt
+    repeat_delay 250
+    repeat_rate 20
+}
+
+input "type:tablet_tool" map_to_output ifelse(__SYSTEM_TYPE__, «LAPTOP», «eDP-1», «HDMI-A-1»)
+
+# ------------------------------------------ KEY BINDINGS -----------------------------------------
+
+# Terminal and program launcher
+bindsym $mod+Return exec unset DISPLAY && alacritty
+bindsym $mod+d      exec "$(flock -nF "$XDG_RUNTIME_DIR/wmenu_lock" ~/.config/sway/wmenu.sh)"
+
+# Move focus and containers
+bindsym $mod+Left  focus left
+bindsym $mod+Down  focus down
+bindsym $mod+Up    focus up
+bindsym $mod+Right focus right
+
+bindsym $mod+a       focus parent
+bindsym $mod+Shift+a focus child
+bindsym $mod+space   focus mode_toggle
+
+bindsym $mod+Shift+Left  move left
+bindsym $mod+Shift+Down  move down
+bindsym $mod+Shift+Up    move up
+bindsym $mod+Shift+Right move right
+
+# Layout
+bindsym $mod+h splith
+bindsym $mod+v splitv
+
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
+
+bindsym $mod+f       fullscreen
+bindsym $mod+Shift+f floating toggle
+
+# Workspaces
+bindsym $mod+1 workspace number 1
+bindsym $mod+2 workspace number 2
+bindsym $mod+3 workspace number 3
+bindsym $mod+4 workspace number 4
+bindsym $mod+5 workspace number 5
+bindsym $mod+6 workspace number 6
+bindsym $mod+7 workspace number 7
+bindsym $mod+8 workspace number 8
+bindsym $mod+9 workspace number 9
+
+bindsym $mod+Shift+1 move container to workspace number 1
+bindsym $mod+Shift+2 move container to workspace number 2
+bindsym $mod+Shift+3 move container to workspace number 3
+bindsym $mod+Shift+4 move container to workspace number 4
+bindsym $mod+Shift+5 move container to workspace number 5
+bindsym $mod+Shift+6 move container to workspace number 6
+bindsym $mod+Shift+7 move container to workspace number 7
+bindsym $mod+Shift+8 move container to workspace number 8
+bindsym $mod+Shift+9 move container to workspace number 9
+
+# Resizing containers
+mode "resize" {
+    bindsym Left  resize shrink width  10px
+    bindsym Down  resize grow   height 10px
+    bindsym Up    resize shrink height 10px
+    bindsym Right resize grow   width  10px
+
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+bindsym $mod+r mode "resize"
+
+# Kill focused window
+bindsym $mod+Shift+q kill
+
+# Volume control
+bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5%
+bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5%
+bindsym XF86AudioMute        exec pactl set-sink-mute   @DEFAULT_SINK@ toggle
+
+ifelse(__SYSTEM_TYPE__, «LAPTOP», «dnl
+# Brightness
+bindsym XF86MonBrightnessUp   exec ~/.config/sway/backlight.sh +10
+bindsym XF86MonBrightnessDown exec ~/.config/sway/backlight.sh -10
+», «dnl»)
+# Screenshots
+bindsym Print exec                                                       \
+    grim "$screenshot_file"                                           && \
+    notify-send -t $notification_timeout "Screenshot of all monitors" || \
+    notify-send -t $notification_timeout "Screenshot failed"
+
+bindsym $mod+Print exec                                                         \
+    swaymsg -t get_outputs                                                   |  \
+    jq -r '.[] | select(.focused).name'                                      |  \
+    grim -o "$(cat)" "$screenshot_file"                                      && \
+    notify-send -t $notification_timeout "Screenshot of the current monitor" || \
+    notify-send -t $notification_timeout "Screenshot failed"
+
+set $screenshot_current_window "$()"
+bindsym $mod+Shift+Print exec                                                         \
+    swaymsg -t get_tree                                                            |  \
+    jq -r '.. | select(.focused?).rect | "\(.x+1),\(.y) \(.width-2)x\(.height-1)"' |  \
+    grim -g "$(cat)" "$screenshot_file"                                            && \
+    notify-send -t $notification_timeout "Screenshot of the current window"        || \
+    notify-send -t $notification_timeout "Screenshot failed"
+
+bindsym $mod+Shift+Ctrl+Print exec                                            \
+    grim -g "$(slurp)" "$screenshot_file"                                  && \
+    notify-send -t $notification_timeout "Screenshot of the selected area" || \
+    notify-send -t $notification_timeout "Screenshot failed"
+
+# Drawing tablet area
+bindsym $mod+T exec                                               \
+    slurp -f "%x %y %w %h" -a 16:9                             |  \
+    swaymsg input "type:tablet_tool" map_to_region "$(cat)"    && \
+    notify-send -t $notification_timeout "Drawing area set"    || \
+    notify-send -t $notification_timeout "Operation cancelled"
+
+# Power
+set $power "(S)hutdown, (r)eboot, (s)leep, (e)xit"
+mode $power {
+    bindsym Shift+S exec doas -n /usr/bin/shutdown -h now
+    bindsym s       exec                                                \
+        flock -nF "$XDG_RUNTIME_DIR/sleep_lock"                         \
+        sh -c "doas -n /usr/bin/zzz && swaymsg mode default && sleep 5"
+    bindsym r       exec doas -n /usr/bin/reboot
+    bindsym e       exit
+
+    bindsym Escape mode "default"
+    bindsym $mod+0 mode "default"
+}
+bindsym $mod+0 mode $power
+
+bindsym $mod+Shift+c reload
+
+# ------------------------------------------- STATUS BAR ------------------------------------------
+
+bar {
+    position bottom
+    font "monospace 10"
+    height 0
+
+    status_command /home/voidbert/barinfo/zig-out/bin/barinfo
+    tray_output none
+
+    colors {
+        background #373737
+        statusline #D4D4D4
+        separator  #5A5A5A
+
+        focused_workspace  #264F78 #264F78 #D4D4D4
+        active_workspace   #1E1E1E #1E1E1E #D4D4D4
+        inactive_workspace #2D2D2D #2D2D2D #D4D4D4
+        urgent_workspace   #B00000 #B00000 #D4D4D4
+    }
+}
+
+# -------------------------------------------- THEMING --------------------------------------------
+
+client.focused          #264F78 #264F78 #D4D4D4 #264F78 #264F78
+client.focused_inactive #1E1E1E #1E1E1E #D4D4D4 #1E1E1E #1E1E1E
+client.urgent           #B00000 #B00000 #D4D4D4 #B00000 #B00000
+client.unfocused        #2D2D2D #2D2D2D #D4D4D4 #2D2D2D #2D2D2D
+
+font "monospace 10"
+titlebar_border_thickness 0
+titlebar_padding 4 4
+
+# -------------------------------------------- WINDOWS --------------------------------------------
+
+for_window [all] border normal 1
+
+for_window [title="Firefox — Sharing Indicator"] floating enable
+for_window [app_id="swayimg"]                    floating enable
+
+# ----------------------------------------- OTHER BEHAVIOR ----------------------------------------
+
+focus_follows_mouse always
+mouse_warping container
+tiling_drag disable
