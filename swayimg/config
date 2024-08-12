@@ -55,7 +55,7 @@ info_timeout = 0
 status_timeout = 3
 
 [info.viewer]
-top_left = name,format
+top_left = name,format,imagesize
 top_right = scale,frame
 bottom_left = none
 bottom_right = status
