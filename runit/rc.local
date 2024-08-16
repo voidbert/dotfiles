@@ -1,0 +1,47 @@
+#!/bin/sh
+
+# --------------------------------------------- ABOUT ---------------------------------------------
+#
+# Script that is run on runit's stage 2 (before login). It initializes $XDG_RUNTIME_DIR and the
+# displays (desktop only).
+#
+# -------------------------------------------- LICENSE --------------------------------------------
+#
+# Copyright 2024 Humberto Gomes
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+# --------------------------------------------- SCRIPT --------------------------------------------
+changequote(`«', `»')
+# Create XDG_RUNTIME_DIR
+mkdir -pm 0700 /run/user/voidbert
+chown voidbert /run/user/voidbert
+ifelse(__SYSTEM_TYPE__, «DESKTOP», «
+# Enable full RGB range on HDMI-A-1 (requires libdrm-test-progs)
+proptest_connector_rgb="$(mktemp)"
+proptest                                                         | \
+    sed -En '/^Connector\s+[0-9]+\s+\(HDMI-A-1\)/,/^Connector/p' | \
+    sed -En '/^\s+[0-9]+\s+Broadcast RGB/,/\s+enums:/p' > "$proptest_connector_rgb"
+
+proptest_output="$(proptest | grep -E '^Connector\s+[0-9]+\s+\(HDMI-A-1\)' | awk '{print $2}')"
+proptest_connector="$(head -n1 "$proptest_connector_rgb" | awk '{print $1}')"
+proptest_value="$(tail -n1 "$proptest_connector_rgb" | grep -Eo 'Full=[0-9]+' | cut -c 6-)"
+
+if [ -n "$proptest_output" ] || [ -n "$proptest_connector" ] || [ -n "$proptest_value" ]; then
+    proptest -M i915 "$proptest_output" connector "$proptest_connector" "$proptest_value" ||
+        echo "Failed to run proptest!" 2>&1
+else
+    echo "Failed to parse proptest's output!" 2>&1
+fi
+
+rm "$proptest_connector_rgb"», «dnl»)
