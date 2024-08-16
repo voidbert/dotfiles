@@ -79,7 +79,7 @@ input "type:tablet_tool" map_to_output ifelse(__SYSTEM_TYPE__, «LAPTOP», «eDP
 # ------------------------------------------ KEY BINDINGS -----------------------------------------
 
 # Terminal and program launcher
-bindsym $mod+Return exec unset DISPLAY && alacritty
+bindsym $mod+Return exec unset DISPLAY && alacritty msg create-window || alacritty
 bindsym $mod+d      exec "$(flock -nF "$XDG_RUNTIME_DIR/wmenu_lock" ~/.config/sway/wmenu.sh)"
 
 # Move focus and containers
