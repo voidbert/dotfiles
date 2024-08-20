@@ -1,0 +1,99 @@
+changequote(`«', `»')dnl
+# --------------------------------------------- ABOUT ---------------------------------------------
+#
+# Configuration file for the alacritty terminal emulator. See `man 5 alacritty` for more details.
+#
+# -------------------------------------------- LICENSE --------------------------------------------
+#
+# Copyright 2024 Humberto Gomes
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+# --------------------------------------------- CONFIG --------------------------------------------
+
+live_config_reload = false
+
+[window]
+dynamic_padding = true
+decorations     = "None"
+
+[font]
+normal = { family = "monospace" }
+size   = 11
+
+# Color scheme basen on Microsoft's Tango Dark, itself based on Tango Desktop Project's palette.
+[colors.primary]
+background        = "#000000"
+foreground        = "#d3d7cf"
+bright_foreground = "#eeeeec"
+
+[colors.search]
+matches       = { foreground = "#d3d7cf", background = "#cc0000" }
+focused_match = { foreground = "#d3d7cf", background = "#c4a000" }
+
+[colors]
+line_indicator = { foreground = "#000000", background = "#d3d7c7" }
+footer_bar     = { foreground = "#000000", background = "#d3d7c7" }
+selection      = { text = "CellForeground", background = "#3465a4" }
+
+[colors.normal]
+black   = "#000000"
+red     = "#cc0000"
+green   = "#4e9a06"
+yellow  = "#c4a000"
+blue    = "#3465a4"
+magenta = "#75507b"
+cyan    = "#06989a"
+white   = "#d3d7cf"
+ 
+[colors.bright]
+black   = "#555753"
+red     = "#ef2929"
+green   = "#8ae234"
+yellow  = "#fce94f"
+blue    = "#729fcf"
+magenta = "#ad7fa8"
+cyan    = "#34e2e2"
+white   = "#eeeeec"
+
+[[hints.enabled]]
+hyperlinks      = true
+post_processing = false
+persist         = false
+command         = "firefox"
+mouse.enabled   = true
+
+[[hints.enabled]]
+regex           = "(http|https)://[^\u0000-\u001F\u007F-\u009F<>\"\\s{-}\\^⟨⟩`]+"
+post_processing = true
+persist         = false
+command         = "firefox"
+mouse.enabled   = true
+
+[[hints.enabled]]
+regex           = "file:///[^\u0000-\u001F\u007F-\u009F<>\"\\s{-}\\^⟨⟩`]*"
+post_processing = true
+persist         = false
+command.program = "alacritty"
+command.args    = [
+    "msg", "create-window", "--command",
+    "sh", "-c", "vifm --select \"$(echo \"$0\" | cut -c8-)\""
+]
+mouse.enabled   = true
+
+[keyboard]
+bindings = [
+    {key = "/", mods = "Shift", mode = "Vi|~Search", action = "SearchForward"},
+    {key = "Right", mods = "Control", mode = "Vi|~Search", action = "WordRight"},
+    {key = "Left", mods = "Control", mode = "Vi|~Search", action = "WordLeft"}
+]
