@@ -1,6 +1,7 @@
 # --------------------------------------------- ABOUT ---------------------------------------------
 #
-# Settings for GTK+3 and GTK4.
+# This Makefile defines rules for installing and uninstalling the configuration files pertaining to
+# this program.
 #
 # -------------------------------------------- LICENSE --------------------------------------------
 #
@@ -20,8 +21,14 @@
 #
 # --------------------------------------------- RULES ---------------------------------------------
 
-[Settings]
-gtk-cursor-theme-name=pixelfun3-eclipse
-gtk-application-prefer-dark-theme=1
+install:
+ifelse(__SYSTEM_TYPE__, `SERVER', `dnl', `dnl
+	mkdir -p $$HOME/.local/share/icons
+	tar -xzf pixelfun3-eclipse.tar.gz -C $$HOME/.local/share/icons 2> /dev/null
+	ln -s $$HOME/.local/share/icons/pixelfun3-eclipse $$HOME/.local/share/icons/default
+	install -Dm 644 settings.ini $$HOME/.config/gtk-3.0/settings.ini')
 
-# Also run: gsettings set org.gnome.desktop.interface cursor-theme pixelfun3-eclipse
+uninstall:
+ifelse(__SYSTEM_TYPE__, `SERVER', `dnl', `dnl
+	rm -r $$HOME/.local/share/icons/default $$HOME/.local/share/icons/pixelfun3-eclipse
+	rm -r $$HOME/.config/gtk-3.0')
