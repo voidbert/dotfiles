@@ -29,21 +29,24 @@ CONFIG := config.m4
 
 # --------------------------------------------- RULES ---------------------------------------------
 
-SOURCES := $(shell find . -maxdepth 1 -type d | \
-             grep -v '\./build'               | \
-			 grep -v '\.$$'                   | \
-			 grep -v '\./\.git')
-OUTPUTS := $(patsubst ./%, $(BUILDDIR)/%, $(SOURCES))
-ROOT    := $(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
+MODULES := $(shell find . -maxdepth 1 -type d | grep -Ev '(^\./build$$)|(^\.$$)|(^\./\.git)')
+OUTPUTS := $(patsubst ./%, $(BUILDDIR)/%, $(MODULES))
 
 all: $(OUTPUTS)
 
-$(BUILDDIR)/%: ./% config.m4
-	@find $< -type d | while IFS= read -r d; do mkdir -p $(BUILDDIR)/$$d; done
-	@find $< -type f | while IFS= read -r f; do m4 $(CONFIG) $$f > $(BUILDDIR)/$$f; done
+$(foreach module, $(MODULES), $(eval \
+	$(patsubst ./%, $(BUILDDIR)/%, $(module)): $(shell find $(module) -type f)))
+
+$(BUILDDIR)/%: ./% Makefile config.m4
+	@find $< -type d | xargs -I {} mkdir -p $(BUILDDIR)/{}
+	@find $< -type f | xargs -I {} file {} | grep text | grep -Eo '^[^:]*' | \
+		xargs -I {} sh -c "m4 $(CONFIG) {} > $(BUILDDIR)/{}"
+	@find $< -type f | xargs -I {} file {} | grep -v text | grep -Eo '^[^:]*' | \
+		xargs -I {} cp {} $(BUILDDIR)/{}
+	@touch $@
 
 install: $(OUTPUTS)
-	@for s in $(OUTPUTS); do cd $$s && make install; cd $(ROOT); done
+	@for module in $(OUTPUTS); do make -C $$module install; donea
 
 .PHONY: clean
 clean:
