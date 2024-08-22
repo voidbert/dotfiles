@@ -31,4 +31,4 @@ ifelse(__SYSTEM_TYPE__, `SERVER', `dnl', `dnl
 uninstall:
 ifelse(__SYSTEM_TYPE__, `SERVER', `dnl', `dnl
 	rm $$HOME/.local/bin/xbps-install $$HOME/.local/bin/xbps-update $$HOME/.local/bin/xbps-remove
-	doas rm -r /etc/xbps.d')
+	doas rm /etc/xbps.d/ignorepkg.conf /etc/xbps.d/ignoreperl.conf')
