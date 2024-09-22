@@ -25,7 +25,6 @@ install:
 ifelse(__SYSTEM_TYPE__, `SERVER', `dnl', `dnl
 	install -Dm 644 config              $$HOME/.config/sway/config
 	install -Dm 744 wmenu.sh            $$HOME/.config/sway/wmenu.sh
-	install -Dm 744 kill-xwayland.sh    $$HOME/.config/sway/kill-xwayland.sh
 ifelse(__SYSTEM_TYPE__, `LAPTOP', `dnl
 	install -Dm 744 external-display.sh $$HOME/.config/sway/external-display.sh
 	install -Dm 744 brightness.sh       $$HOME/.config/sway/brightness.sh

@@ -32,13 +32,6 @@ if [ "$(whoami)" = "voidbert" ] && [ "$(tty)" = "/dev/tty1" ]; then
     export XDG_SESSION_TYPE="wayland"
 
     ~/.config/sway/wmenu.sh --cache &
-
     dbus-run-session sway
-
-    # Kill sway's autostart processes
-    cat .config/sway/config                                        | \
-        grep '^exec'                                               | \
-        sed -E 's/exec |\& //g'                                    | \
-        xargs -n1 sh -c 'echo $0 | sed -E s:[^/]+/::g | head -c15' | \
-        xargs -n1 pkill -x
+    echo "mako pipewire pipewire-pulse wireplumber" | xargs -n1 pkill
 fi

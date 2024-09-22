@@ -22,7 +22,8 @@ changequote(`«', `»')dnl
 # -------------------------------------------- STARTUP --------------------------------------------
 
 # Programs
-exec mako & pipewire & pipewire-pulse & wireplumber & ~/.config/sway/kill-xwayland.sh
+exec mako & pipewire & pipewire-pulse & wireplumber
+exec sleep 5 && DISPLAY=:0 xlsclients
 xwayland enable
 
 # Configuration variables
