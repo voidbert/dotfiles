@@ -138,4 +138,4 @@ filetype /\\.tar\\.xz$/i
     \ {Extract here}
     \ tar xJf %c
 ifelse(__SYSTEM_TYPE__, «SERVER», «», «esyscmd(«tail -n+24 vifm/workstation.2»)»)
-nnoremap o :file &<cr>
+nnoremap o :file<cr>
