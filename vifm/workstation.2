@@ -33,15 +33,15 @@ filextype /\\.apng$/i
     \ {View in Firefox}
     \ firefox %c %i &
 
-filextype /\\.(jpg|jpeg|jxl|png|gif|svg|wepb|heif|heifs|heic|heics|avci|avcs|hif|avif|avifs|tiff|tif|exr|bmp|pbm|pgm|ppm|pnm|tga|icb|vda|vst)$/i
+filextype /\\.(jpg|jpeg|jxl|png|apng|gif|svg|webp|heif|heifs|heic|heics|avci|avcs|hif|avif|avifs|tiff|tif|exr|bmp|pbm|pgm|ppm|pnm|tga|icb|vda|vst)$/i
 	\ {View in swayimg}
 	\ sh -c 'unset SWAYSOCK && swayimg "$0"' %c %i &
 
-filextype /\\.(jpg|jpeg|jxl|png|gif|svg|wepb|heif|heifs|heic|heics|avci|avcs|hif|avif|avifs|tiff|tif|exr|bmp|pbm|pgm|ppm|pnm|tga|icb|vda|vst)$/i
+filextype /\\.(jpg|jpeg|jxl|png|apng|gif|svg|webp|heif|heifs|heic|heics|avci|avcs|hif|avif|avifs|tiff|tif|exr|bmp|pbm|pgm|ppm|pnm|tga|icb|vda|vst|xcf)$/i
  	\ {Edit with GIMP}
 	\ gimp --display :0 %c %i &
 
-filextype /\\.(jpg|jpeg|png|gif|svg|wepb|avif|avifs|bmp)$/i
+filextype /\\.(jpg|jpeg|png|gif|svg|webp|avif|avifs|bmp)$/i
     \ {View in Firefox}
     \ firefox %c %i &
 
@@ -58,13 +58,13 @@ filextype /\\.(odp|fodp|ott|pptx|ppt|potx|pot|pps|ppsx)$/i
 	\ {Edit with LibreOffice Impress}
 	\ libreoffice %c %i &
 
-filextype /\\.pdf$/i
+filextype /\\.(pdf|epub)$/i
 	\ {View in Zathura}
 	\ zathura --fork %c %i,
 	\ {View in Firefox}
     \ firefox %c %i &
 
-filextype /\\.xopp$/i
+filextype /\\.(xopp|pdf)$/i
 	\ {Edit with Xournal++}
 	\ xournalpp %c %i &
 
