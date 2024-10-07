@@ -124,18 +124,6 @@ clear_swap()
 	doas sh -c "swapoff -a && swapon -a"
 }
 
-# vifm color fix
-
-vifm()
-{
-	if [ "$TERM" = "foot" ]; then
-		command vifm
-		theme.sh one-half-black
-	else
-		foot vifm
-	fi
-}
-
 # Desktop apps (mostly Wayland fixes)
 
 dolphin()

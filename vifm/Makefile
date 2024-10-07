@@ -23,6 +23,7 @@
 
 install:
 	install -Dm 644 vifmrc $$HOME/.config/vifm/vifmrc
+	install -Dm 755 vifm $$HOME/.local/bin/vifm
 
 uninstall:
 	rm -r $$HOME/.config/vifm
