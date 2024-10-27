@@ -21,6 +21,7 @@ changequote(`«', `»')dnl
 #
 # --------------------------------------------- CONFIG --------------------------------------------
 
+[general]
 live_config_reload = false
 
 [window]
