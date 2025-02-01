@@ -23,7 +23,7 @@
 
 install:
 define(__INSTALL_FILE__, `ifelse(__SYSTEM_TYPE__, `SERVER', `doas.server.conf', `doas.workstation.conf')')dnl
-	doas install -Dm 644 __INSTALL_FILE__ /etc/doas.conf
+	[ "$$(id -u)" = "0" ] && install -Dm 644 __INSTALL_FILE__ /etc/doas.conf || doas install -Dm 644 __INSTALL_FILE__ /etc/doas.conf
 
 uninstall:
 	doas printf "" > /etc/doas.conf
