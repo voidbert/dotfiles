@@ -5,7 +5,7 @@ changequote(`«', `»')dnl
 #
 # -------------------------------------------- LICENSE --------------------------------------------
 #
-# Copyright 2024 Humberto Gomes
+# Copyright 2025 Humberto Gomes
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -22,7 +22,7 @@ changequote(`«', `»')dnl
 # -------------------------------------------- STARTUP --------------------------------------------
 
 # Programs
-exec mako & pipewire & pipewire-pulse & wireplumber
+exec mako
 exec sleep 5 && DISPLAY=:0 xlsclients
 xwayland enable
 
@@ -46,7 +46,7 @@ output DP-1 {
     bg "~/Pictures/Wallpapers/Kimi no na wa 2.jpg" fill
 }», «dnl
 output eDP-1 {
-    resolution 1366x768@60.059Hz
+    resolution 1920x1020@60.02Hz
     position 0 0
 }
 
@@ -146,14 +146,15 @@ bindsym $mod+r mode "resize"
 bindsym $mod+Shift+q kill
 
 # Volume control
-bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5%
-bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5%
-bindsym XF86AudioMute        exec pactl set-sink-mute   @DEFAULT_SINK@ toggle
+# TODO - Add device switching support
+bindsym XF86AudioRaiseVolume exec amixer sset -D "hw:1" Master 5%+
+bindsym XF86AudioLowerVolume exec amixer sset -D "hw:1" Master 5%-
+bindsym XF86AudioMute        exec amixer sset -D "hw:1" Master toggle
 
 ifelse(__SYSTEM_TYPE__, «LAPTOP», «dnl
 # Brightness
-bindsym XF86MonBrightnessUp   exec ~/.config/sway/brightness.sh up
-bindsym XF86MonBrightnessDown exec ~/.config/sway/brightness.sh down
+bindsym XF86MonBrightnessUp   exec xbacklight -inc 5 -perceived
+bindsym XF86MonBrightnessDown exec xbacklight -dec 5 -perceived
 », «dnl»)
 # Screenshots
 bindsym Print exec                                                       \

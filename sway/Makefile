@@ -26,9 +26,7 @@ ifelse(__SYSTEM_TYPE__, `SERVER', `dnl', `dnl
 	install -Dm 644 config              $$HOME/.config/sway/config
 	install -Dm 744 wmenu.sh            $$HOME/.config/sway/wmenu.sh
 ifelse(__SYSTEM_TYPE__, `LAPTOP', `dnl
-	install -Dm 744 external-display.sh $$HOME/.config/sway/external-display.sh
-	install -Dm 744 brightness.sh       $$HOME/.config/sway/brightness.sh
-	install -Dm 644 brightness_levels   $$HOME/.config/sway/brightness_levels', `dnl')')
+	install -Dm 744 external-display.sh $$HOME/.config/sway/external-display.sh', `dnl')')
 
 uninstall:
 ifelse(__SYSTEM_TYPE__, `SERVER', `dnl', `dnl
