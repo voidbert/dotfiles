@@ -3,11 +3,11 @@
 # --------------------------------------------- ABOUT ---------------------------------------------
 #
 # Script that is run on runit's stage 2 (before login). It initializes $XDG_RUNTIME_DIR and the
-# displays (desktop only).
+# displays (desktop only), and the keyboard (laptop only).
 #
 # -------------------------------------------- LICENSE --------------------------------------------
 #
-# Copyright 2024 Humberto Gomes
+# Copyright 2025 Humberto Gomes
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -44,4 +44,10 @@ else
     echo "Failed to parse proptest's output!" 2>&1
 fi
 
-rm "$proptest_connector_rgb"», «dnl»)
+rm "$proptest_connector_rgb"», __SYSTEM_TYPE__, «LAPTOP», «
+# Replace Lenovo's media keys with Home, End, PgUp and PgDn
+
+setkeycodes 0xe022 102 # Home
+setkeycodes 0xe024 107 # End
+setkeycodes 0xe010 104 # PgUp
+setkeycodes 0xe019 109 # PgDn», «dnl»)
